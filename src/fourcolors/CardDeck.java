@@ -4,10 +4,13 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 public class CardDeck {
-    private ArrayList<Card> cards;
+    private final ArrayList<Card> cards;
+    private int addedCards;
+    private static final int MAX_DECK_SIZE = 108;
 
     public CardDeck() {
         cards = new ArrayList<>();
+        addedCards = 0;
         Color[] colors = Color.values();
         for (Color color : colors) {
             if (color == Color.WILD) {
@@ -34,6 +37,31 @@ public class CardDeck {
     public void printCards() {
         for (Card card : cards) {
             System.out.println(card);
+        }
+    }
+
+    public int getSize() {
+        return cards.size();
+    }
+
+    public Card takeCard(int index) {
+        if (index >= 0 && index <= cards.size()) {
+            Card card;
+            card = cards.get(index);
+            cards.remove(index);
+            return card;
+        } else {
+            System.err.println("Foutieve index");
+            return null;
+        }
+    }
+
+    public void addCard(Card card) {
+        cards.add(card);
+        addedCards++;
+        if (addedCards >= MAX_DECK_SIZE/2) {
+            addedCards = 0;
+            Collections.shuffle(cards);
         }
     }
 }

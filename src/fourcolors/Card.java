@@ -21,4 +21,8 @@ public class Card {
         if (type == null) return color.toString() + number;
         else return color.toString() + type;
     }
+
+    public Color getColor() {
+        return color;
+    }
 }

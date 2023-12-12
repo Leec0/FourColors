@@ -2,7 +2,8 @@ package fourcolors;
 
 public class TestMain {
     public static void main(String[] args) {
-        CardDeck cardDeck = new CardDeck();
-        cardDeck.printCards();
+        PlayField playField = new PlayField(4);
+        playField.printPlayerCards();
+        System.out.println(playField.getPlayedCard());
     }
 }

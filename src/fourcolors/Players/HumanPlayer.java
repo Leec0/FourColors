@@ -18,12 +18,20 @@ public class HumanPlayer implements Player {
     }
 
     @Override
-    public void takeCard(Card card) {
-
+    public void giveCard(Card card) {
+        cards.add(card);
     }
 
     @Override
     public void uno() {
 
+    }
+
+    public String toString() {
+        StringBuilder stringBuilder = new StringBuilder();
+        for (Card card : cards) {
+            stringBuilder.append(card).append("\n");
+        }
+        return stringBuilder.toString();
     }
 }
