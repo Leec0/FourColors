@@ -25,4 +25,12 @@ public class Card {
     public Color getColor() {
         return color;
     }
+
+    public int getNumber() {
+        return number;
+    }
+
+    public CardType getType() {
+        return type;
+    }
 }

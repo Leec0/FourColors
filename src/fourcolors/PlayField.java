@@ -71,7 +71,19 @@ public class PlayField {
         }
     }
 
-    private boolean canBePlayed() {
-        boolean result;
+    private boolean canBePlayed(Card card) {
+        boolean result = false;
+        result = card.getColor() == Color.WILD;
+        if (!result) {
+            result = card.getColor() == playedCard.getColor();
+            if (!result) {
+                if (card.getType() == null) {
+                    result = card.getNumber() == playedCard.getNumber();
+                } else {
+                    result = card.getType() == playedCard.getType();
+                }
+            }
+        }
+        return result;
     }
 }
