@@ -5,5 +5,6 @@ public class TestMain {
         PlayField playField = new PlayField(4);
         playField.printPlayerCards();
         System.out.println(playField.getPlayedCard());
+        playField.playGame();
     }
 }

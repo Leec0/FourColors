@@ -1,4 +1,4 @@
-package fourcolors;
+package fourcolors.cards;
 
 public class Card {
     private final int number;
