@@ -30,16 +30,28 @@ public class PlayField {
     public void playGame() {
         do {
             for (Player player : players) {
-                int playOption = player.playTurn();
-                if (playOption == player.getCards().size() + 1) {
-                    do {
-                        Card drawedCard = cardDeck.takeCard(0);
-                        player.giveCard(drawedCard);
-                    } while ();
-                } else {
-                    cardDeck.addCard(playedCard);
-                    playedCard = player.playCard(player.getCards().get(playOption - 1));
-                }
+                boolean turnEnd = false;
+                do {
+                    int playOption = player.playTurn();
+                    if (playOption == player.getCards().size() + 1) {
+                        Card drawedCard;
+                        do {
+                            drawedCard = cardDeck.takeCard(0);
+                            player.giveCard(drawedCard); //check of er kaarten in kaart deck zitten!!!!
+                        } while (!canBePlayed(drawedCard));
+                        turnEnd = true;
+                    } else { //toevoegen kaart uit speler zijn deck halen
+                        Card playerPlayedCard = player.getCards().get(playOption - 1);
+                        if (canBePlayed(playerPlayedCard)) {
+                            cardDeck.addCard(playedCard);
+                            playedCard = playerPlayedCard;
+                            player.playCard(playerPlayedCard);
+                            turnEnd = true;
+                        } else {
+                            System.out.println("Deze kaart kan niet gespeeld worden.");
+                        }
+                    }
+                } while(!turnEnd);
             }
         } while (true);
     }

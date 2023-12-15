@@ -25,8 +25,8 @@ public class HumanPlayer implements Player {
     }
 
     @Override
-    public Card playCard(Card card) {
-        return card;
+    public void playCard(Card card) {
+        cards.remove(card);
     }
 
     @Override
