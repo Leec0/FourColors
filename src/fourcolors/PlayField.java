@@ -3,6 +3,7 @@ package fourcolors;
 import fourcolors.cards.Card;
 import fourcolors.cards.CardDeck;
 import fourcolors.cards.Color;
+import fourcolors.players.AiEasy;
 import fourcolors.players.HumanPlayer;
 
 import java.util.ArrayList;
@@ -23,8 +24,9 @@ public class PlayField {
         if (playerAmount < 2 || playerAmount > 4) {
             playerAmount = 2;
         }
-        for (int i = 0; i < playerAmount; i++) {
-            players.add(new HumanPlayer());
+        players.add(new HumanPlayer());
+        for (int i = 0; i < playerAmount - 1; i++) {
+            players.add(new AiEasy());
         }
         givePlayerCards();
     }
@@ -44,14 +46,14 @@ public class PlayField {
                             emptyDeck = cardDeck.getSize() <= 0;
                         } while (!canBePlayed(drawedCard) && !emptyDeck);
                         turnEnd = true;
-                    } else { //toevoegen kaart uit speler zijn deck halen
+                    } else {
                         Card playerPlayedCard = player.getCards().get(playOption - 1);
                         if (canBePlayed(playerPlayedCard)) {
                             cardDeck.addCard(playedCard);
                             playedCard = player.playCard(playOption - 1);
                             turnEnd = true;
                             if (playerPlayedCard.getColor() == Color.WILD) {
-                                setWildColor();
+                                setWildColor(player);
                             }
                         } else {
                             System.out.println("Deze kaart kan niet gespeeld worden.");
@@ -108,24 +110,8 @@ public class PlayField {
         return result;
     }
 
-    private void setWildColor() {
-        String menuText = """
-                1: RED
-                2: BLUE
-                3: YELLOW
-                4: GREEN
-                Select:""";
-        System.out.print(menuText);
-        int selection;
-        do {
-            Scanner sc = new Scanner(System.in);
-            selection = sc.nextInt();
-            if (selection <= 0 || selection > 4) {
-                System.out.println("Foutieve invoer");
-                System.out.print(menuText);
-            }
-        } while (selection <= 0 || selection > 4);
-        switch (selection) {
+    private void setWildColor(Player player) {
+        switch (player.selectWildColor()) {
             case 1:
                 wildColor = Color.RED;
                 break;

@@ -10,4 +10,5 @@ public interface Player {
     public Card playCard(int index);
     public void addCard(Card card);
     public void uno();
+    public int selectWildColor();
 }
