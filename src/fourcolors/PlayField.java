@@ -7,9 +7,11 @@ import fourcolors.players.HumanPlayer;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class PlayField {
     private Card playedCard;
+    private Color wildColor;
     private final CardDeck cardDeck;
     private final List<Player> players;
     private static final int AMOUNT_OF_START_CARDS = 7;
@@ -48,11 +50,14 @@ public class PlayField {
                             cardDeck.addCard(playedCard);
                             playedCard = player.playCard(playOption - 1);
                             turnEnd = true;
+                            if (playerPlayedCard.getColor() == Color.WILD) {
+                                setWildColor();
+                            }
                         } else {
                             System.out.println("Deze kaart kan niet gespeeld worden.");
                         }
                     }
-                } while(!turnEnd);
+                } while (!turnEnd);
             }
         } while (true);
     }
@@ -95,8 +100,44 @@ public class PlayField {
                 } else {
                     result = card.getType() == playedCard.getType();
                 }
+                if (playedCard.getColor() == Color.WILD && !result) {
+                    result = card.getColor() == wildColor;
+                }
             }
         }
         return result;
+    }
+
+    private void setWildColor() {
+        String menuText = """
+                1: RED
+                2: BLUE
+                3: YELLOW
+                4: GREEN
+                Select:""";
+        System.out.print(menuText);
+        int selection;
+        do {
+            Scanner sc = new Scanner(System.in);
+            selection = sc.nextInt();
+            if (selection <= 0 || selection > 4) {
+                System.out.println("Foutieve invoer");
+                System.out.print(menuText);
+            }
+        } while (selection <= 0 || selection > 4);
+        switch (selection) {
+            case 1:
+                wildColor = Color.RED;
+                break;
+            case 2:
+                wildColor = Color.BLUE;
+                break;
+            case 3:
+                wildColor = Color.YELLOW;
+                break;
+            case 4:
+                wildColor = Color.GREEN;
+                break;
+        }
     }
 }
