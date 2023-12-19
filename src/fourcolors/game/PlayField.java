@@ -1,18 +1,17 @@
-package fourcolors;
+package fourcolors.game;
 
-import fourcolors.cards.Card;
-import fourcolors.cards.CardDeck;
-import fourcolors.cards.Color;
-import fourcolors.players.AiEasy;
-import fourcolors.players.HumanPlayer;
+import fourcolors.game.cards.Card;
+import fourcolors.game.cards.CardDeck;
+import fourcolors.game.cards.CardColor;
+import fourcolors.game.players.AiEasy;
+import fourcolors.game.players.HumanPlayer;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 public class PlayField {
     private Card playedCard;
-    private Color wildColor;
+    private CardColor wildCardColor;
     private final CardDeck cardDeck;
     private final List<Player> players;
     private static final int AMOUNT_OF_START_CARDS = 7;
@@ -52,7 +51,7 @@ public class PlayField {
                             cardDeck.addCard(playedCard);
                             playedCard = player.playCard(playOption - 1);
                             turnEnd = true;
-                            if (playerPlayedCard.getColor() == Color.WILD) {
+                            if (playerPlayedCard.getColor() == CardColor.WILD) {
                                 setWildColor(player);
                             }
                         } else {
@@ -77,7 +76,7 @@ public class PlayField {
 
     private void setStartCard() {
         playedCard = cardDeck.takeCard(0);
-        while (playedCard.getColor() == Color.WILD) {
+        while (playedCard.getColor() == CardColor.WILD) {
             cardDeck.addCard(playedCard);
             playedCard = cardDeck.takeCard(0);
         }
@@ -93,7 +92,7 @@ public class PlayField {
 
     private boolean canBePlayed(Card card) {
         boolean result = false;
-        result = card.getColor() == Color.WILD;
+        result = card.getColor() == CardColor.WILD;
         if (!result) {
             result = card.getColor() == playedCard.getColor();
             if (!result) {
@@ -102,8 +101,8 @@ public class PlayField {
                 } else {
                     result = card.getType() == playedCard.getType();
                 }
-                if (playedCard.getColor() == Color.WILD && !result) {
-                    result = card.getColor() == wildColor;
+                if (playedCard.getColor() == CardColor.WILD && !result) {
+                    result = card.getColor() == wildCardColor;
                 }
             }
         }
@@ -113,16 +112,16 @@ public class PlayField {
     private void setWildColor(Player player) {
         switch (player.selectWildColor()) {
             case 1:
-                wildColor = Color.RED;
+                wildCardColor = CardColor.RED;
                 break;
             case 2:
-                wildColor = Color.BLUE;
+                wildCardColor = CardColor.BLUE;
                 break;
             case 3:
-                wildColor = Color.YELLOW;
+                wildCardColor = CardColor.YELLOW;
                 break;
             case 4:
-                wildColor = Color.GREEN;
+                wildCardColor = CardColor.GREEN;
                 break;
         }
     }

@@ -1,4 +1,4 @@
-package fourcolors.cards;
+package fourcolors.game.cards;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -47,22 +47,22 @@ public class CardDeck {
     }
 
     private void fillDeck() {
-        for (Color color : Color.values()) {
-            if (color == Color.WILD) {
+        for (CardColor cardColor : CardColor.values()) {
+            if (cardColor == CardColor.WILD) {
                 for (int i = 0; i < 4; i++) {
-                    cards.add(new Card(CardType.DRAW4, color));
-                    cards.add(new Card(CardType.CHANGE, color));
+                    cards.add(new Card(CardType.DRAW4, cardColor));
+                    cards.add(new Card(CardType.CHANGE, cardColor));
                 }
             } else {
-                cards.add(new Card(0, color));
+                cards.add(new Card(0, cardColor));
                 for (int i = 1; i <= 9; i++) {
-                    cards.add(new Card(i, color));
-                    cards.add(new Card(i, color));
+                    cards.add(new Card(i, cardColor));
+                    cards.add(new Card(i, cardColor));
                 }
                 for (int i = 0; i < 2; i++) {
-                    cards.add(new Card(CardType.DRAW2, color));
-                    cards.add(new Card(CardType.REVERSE, color));
-                    cards.add(new Card(CardType.SKIP, color));
+                    cards.add(new Card(CardType.DRAW2, cardColor));
+                    cards.add(new Card(CardType.REVERSE, cardColor));
+                    cards.add(new Card(CardType.SKIP, cardColor));
                 }
             }
         }
