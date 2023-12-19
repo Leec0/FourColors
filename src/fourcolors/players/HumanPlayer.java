@@ -25,12 +25,14 @@ public class HumanPlayer implements Player {
     }
 
     @Override
-    public void playCard(Card card) {
-        cards.remove(card);
+    public Card playCard(int index) {
+        Card returnCard = cards.get(index);
+        cards.remove(index);
+        return returnCard;
     }
 
     @Override
-    public void giveCard(Card card) {
+    public void addCard(Card card) {
         cards.add(card);
     }
 

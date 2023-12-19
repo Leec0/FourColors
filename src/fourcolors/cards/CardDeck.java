@@ -7,7 +7,7 @@ import java.util.List;
 public class CardDeck {
     private final List<Card> cards;
     private int addedCards;
-    private static final int MAX_DECK_SIZE = 108;
+    private static final int SHUFLE_CARDS = 10;
 
     public CardDeck() {
         cards = new ArrayList<>();
@@ -40,7 +40,7 @@ public class CardDeck {
     public void addCard(Card card) {
         cards.add(card);
         addedCards++;
-        if (addedCards >= MAX_DECK_SIZE/2) {
+        if (addedCards >= SHUFLE_CARDS) {
             addedCards = 0;
             Collections.shuffle(cards);
         }

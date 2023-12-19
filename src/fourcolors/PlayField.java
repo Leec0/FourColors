@@ -35,17 +35,18 @@ public class PlayField {
                     int playOption = player.playTurn();
                     if (playOption == player.getCards().size() + 1) {
                         Card drawedCard;
+                        boolean emptyDeck = false;
                         do {
                             drawedCard = cardDeck.takeCard(0);
-                            player.giveCard(drawedCard); //check of er kaarten in kaart deck zitten!!!!
-                        } while (!canBePlayed(drawedCard));
+                            player.addCard(drawedCard);
+                            emptyDeck = cardDeck.getSize() <= 0;
+                        } while (!canBePlayed(drawedCard) && !emptyDeck);
                         turnEnd = true;
                     } else { //toevoegen kaart uit speler zijn deck halen
                         Card playerPlayedCard = player.getCards().get(playOption - 1);
                         if (canBePlayed(playerPlayedCard)) {
                             cardDeck.addCard(playedCard);
-                            playedCard = playerPlayedCard;
-                            player.playCard(playerPlayedCard);
+                            playedCard = player.playCard(playOption - 1);
                             turnEnd = true;
                         } else {
                             System.out.println("Deze kaart kan niet gespeeld worden.");
@@ -78,7 +79,7 @@ public class PlayField {
     private void givePlayerCards() {
         for (Player player : players) {
             for (int i = 0; i < AMOUNT_OF_START_CARDS; i++) {
-                player.giveCard(cardDeck.takeCard(0));
+                player.addCard(cardDeck.takeCard(0));
             }
         }
     }
