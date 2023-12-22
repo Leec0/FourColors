@@ -13,6 +13,12 @@ public class User {
         this.wins = 0;
     }
 
+    public User(String name, Color favoriteColor, int wins) {
+        this.name = name;
+        this.favoriteColor = favoriteColor;
+        this.wins = wins;
+    }
+
     public String getName() {
         return name;
     }
@@ -31,5 +37,9 @@ public class User {
 
     public void addWin() {
         wins++;
+    }
+
+    public String toString() {
+        return String.format("\"%s\",\"%d\",%d", name, favoriteColor.getRGB(), wins);
     }
 }
