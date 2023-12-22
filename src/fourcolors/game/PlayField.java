@@ -37,13 +37,13 @@ public class PlayField {
                 boolean turnEnd = false;
                 do {
                     System.out.println(playedCard);
-                    if (playedCard.getColor()==CardColor.WILD) {
+                    if (playedCard.getColor() == CardColor.WILD) {
                         System.out.println(wildCardColor);
                     }
                     int playOption = player.playTurn();
                     if (playOption == player.getCards().size() + 1) {
                         Card drawedCard;
-                        boolean emptyDeck = false;
+                        boolean emptyDeck;
                         do {
                             drawedCard = cardDeck.takeCard(0);
                             player.addCard(drawedCard);
@@ -65,7 +65,7 @@ public class PlayField {
                     }
                 } while (!turnEnd);
             }
-        } while (true);
+        } while (!gameEnd());
     }
 
     public Card getPlayedCard() {
@@ -114,15 +114,15 @@ public class PlayField {
         return result;
     }
 
-    private void Draw(Player player){
-        if (playedCard.getType()== CardType.DRAW4){
+    private void Draw(Player player) {
+        if (playedCard.getType() == CardType.DRAW4) {
             Card givenCard;
             for (int i = 0; i < 4; i++) {
                 givenCard = cardDeck.takeCard(0);
                 player.addCard(givenCard);
             }
         }
-        if (playedCard.getType()== CardType.DRAW2){
+        if (playedCard.getType() == CardType.DRAW2) {
             Card givenCard;
             for (int i = 0; i < 2; i++) {
                 givenCard = cardDeck.takeCard(0);
@@ -146,5 +146,14 @@ public class PlayField {
                 wildCardColor = CardColor.GREEN;
                 break;
         }
+    }
+
+    private boolean gameEnd() {
+        for (Player player : players) {
+            if (player.getCards().isEmpty()) {
+                return true;
+            }
+        }
+        return false;
     }
 }
