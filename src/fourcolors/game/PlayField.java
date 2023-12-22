@@ -42,13 +42,7 @@ public class PlayField {
                     }
                     int playOption = player.playTurn();
                     if (playOption == player.getCards().size() + 1) {
-                        Card drawedCard;
-                        boolean emptyDeck;
-                        do {
-                            drawedCard = cardDeck.takeCard(0);
-                            player.addCard(drawedCard);
-                            emptyDeck = cardDeck.getSize() <= 0;
-                        } while (!canBePlayed(drawedCard) && !emptyDeck);
+                        playerDraw(player);
                         turnEnd = true;
                     } else {
                         Card playerPlayedCard = player.getCards().get(playOption - 1);
@@ -155,5 +149,19 @@ public class PlayField {
             }
         }
         return false;
+    }
+
+    private void playerDraw(Player player) {
+        Card drawedCard;
+        boolean emptyDeck;
+        do {
+            drawedCard = cardDeck.takeCard(0);
+            player.addCard(drawedCard);
+            emptyDeck = cardDeck.getSize() <= 0;
+        } while (!canBePlayed(drawedCard) && !emptyDeck);
+    }
+
+    private void playerPlay(Player player, Card playerPlayedCard) {
+
     }
 }
