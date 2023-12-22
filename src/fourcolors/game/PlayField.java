@@ -35,6 +35,10 @@ public class PlayField {
             for (Player player : players) {
                 boolean turnEnd = false;
                 do {
+                    System.out.println(playedCard);
+                    if (playedCard.getColor()==CardColor.WILD) {
+                        System.out.println(wildCardColor);
+                    }
                     int playOption = player.playTurn();
                     if (playOption == player.getCards().size() + 1) {
                         Card drawedCard;
