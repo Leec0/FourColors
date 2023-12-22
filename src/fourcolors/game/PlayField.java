@@ -3,6 +3,7 @@ package fourcolors.game;
 import fourcolors.game.cards.Card;
 import fourcolors.game.cards.CardDeck;
 import fourcolors.game.cards.CardColor;
+import fourcolors.game.cards.CardType;
 import fourcolors.game.players.AiEasy;
 import fourcolors.game.players.HumanPlayer;
 
@@ -111,6 +112,23 @@ public class PlayField {
             }
         }
         return result;
+    }
+
+    private void Draw(Player player){
+        if (playedCard.getType()== CardType.DRAW4){
+            Card givenCard;
+            for (int i = 0; i < 4; i++) {
+                givenCard = cardDeck.takeCard(0);
+                player.addCard(givenCard);
+            }
+        }
+        if (playedCard.getType()== CardType.DRAW2){
+            Card givenCard;
+            for (int i = 0; i < 2; i++) {
+                givenCard = cardDeck.takeCard(0);
+                player.addCard(givenCard);
+            }
+        }
     }
 
     private void setWildColor(Player player) {
