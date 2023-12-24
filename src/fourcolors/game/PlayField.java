@@ -34,7 +34,7 @@ public class PlayField {
     public void playGame() {
         do {
             for (Player player : players) {
-                boolean turnEnd = false;
+                boolean turnEnd;
                 do {
                     System.out.println(playedCard);
                     if (playedCard.getColor() == CardColor.WILD) {
@@ -42,20 +42,9 @@ public class PlayField {
                     }
                     int playOption = player.playTurn();
                     if (playOption == player.getCards().size() + 1) {
-                        playerDraw(player);
-                        turnEnd = true;
+                        turnEnd = playerDraw(player);
                     } else {
-                        Card playerPlayedCard = player.getCards().get(playOption - 1);
-                        if (canBePlayed(playerPlayedCard)) {
-                            cardDeck.addCard(playedCard);
-                            playedCard = player.playCard(playOption - 1);
-                            turnEnd = true;
-                            if (playerPlayedCard.getColor() == CardColor.WILD) {
-                                setWildColor(player);
-                            }
-                        } else {
-                            System.out.println("Deze kaart kan niet gespeeld worden.");
-                        }
+                        turnEnd = playerPlay(player, playOption - 1);
                     }
                 } while (!turnEnd);
             }
@@ -151,7 +140,7 @@ public class PlayField {
         return false;
     }
 
-    private void playerDraw(Player player) {
+    private boolean playerDraw(Player player) {
         Card drawedCard;
         boolean emptyDeck;
         do {
@@ -159,9 +148,21 @@ public class PlayField {
             player.addCard(drawedCard);
             emptyDeck = cardDeck.getSize() <= 0;
         } while (!canBePlayed(drawedCard) && !emptyDeck);
+        return true;
     }
 
-    private void playerPlay(Player player, Card playerPlayedCard) {
-
+    private boolean playerPlay(Player player, int cardIndex) {
+        Card playerPlayedCard = player.getCards().get(cardIndex);
+        if (canBePlayed(playerPlayedCard)) {
+            cardDeck.addCard(playedCard);
+            playedCard = player.playCard(cardIndex);
+            if (playerPlayedCard.getColor() == CardColor.WILD) {
+                setWildColor(player);
+            }
+            return true;
+        } else {
+            System.out.println("Deze kaart kan niet gespeeld worden.");
+            return false;
+        }
     }
 }
