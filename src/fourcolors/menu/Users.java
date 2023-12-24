@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
-public class Users {
+public class Users implements Presistent{
     private final Map<String, User> users;
     private final static String FILE_LOCATION = "users-save-data.cvs";
 
@@ -18,15 +18,12 @@ public class Users {
     public void addUser(User user) {
         if (!users.containsKey(user.getName())) {
             users.put(user.getName(), user);
-            try {
-                save(FILE_LOCATION);
-            } catch (IOException e) {
-                System.err.println(e.getMessage());
-            }
+            save(FILE_LOCATION);
         }
     }
 
-    public void save(String filename) throws IOException {
+    @Override
+    public void save(String filename) {
         try (PrintWriter writer = new PrintWriter(new FileWriter(filename))) {
             if (new File(filename).length() == 0) {
                 writer.println("\"name\",\"color\",\"wins\"");
@@ -34,9 +31,12 @@ public class Users {
             for (User user : users.values()) {
                 writer.println(user);
             }
+        } catch (IOException e) {
+            System.err.println(e.getMessage());
         }
     }
 
+    @Override
     public void load(String filename) {
         try {
             try (Scanner sc = new Scanner(new File(filename))) {
