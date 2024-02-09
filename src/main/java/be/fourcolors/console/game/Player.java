@@ -1,6 +1,6 @@
-package fourcolors.game;
+package be.fourcolors.console.game;
 
-import fourcolors.game.cards.Card;
+import be.fourcolors.console.game.cards.Card;
 
 import java.util.List;
 

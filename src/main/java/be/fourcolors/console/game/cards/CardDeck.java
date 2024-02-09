@@ -1,4 +1,4 @@
-package fourcolors.game.cards;
+package be.fourcolors.console.game.cards;
 
 import java.util.ArrayList;
 import java.util.Collections;

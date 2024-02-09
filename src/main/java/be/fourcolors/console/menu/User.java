@@ -1,6 +1,7 @@
-package fourcolors.menu;
+package be.fourcolors.console.menu;
 
-import java.awt.*;
+
+import javafx.scene.paint.Color;
 
 public class User {
     private final String name;
@@ -40,6 +41,6 @@ public class User {
     }
 
     public String toString() {
-        return String.format("\"%s\",\"%d\",%d", name, favoriteColor.getRGB(), wins);
+        return String.format("\"%s\",\"%f%f%f%f\",%d", name, favoriteColor.getRed(), favoriteColor.getGreen(), favoriteColor.getBlue(), favoriteColor.getHue(), wins);
     }
 }

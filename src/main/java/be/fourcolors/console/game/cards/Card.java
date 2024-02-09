@@ -1,4 +1,4 @@
-package fourcolors.game.cards;
+package be.fourcolors.console.game.cards;
 
 public class Card {
     private final int number;

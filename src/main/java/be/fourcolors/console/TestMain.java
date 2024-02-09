@@ -1,6 +1,6 @@
-package fourcolors;
+package be.fourcolors.console;
 
-import fourcolors.game.PlayField;
+import be.fourcolors.console.game.PlayField;
 
 public class TestMain {
     public static void main(String[] args) {

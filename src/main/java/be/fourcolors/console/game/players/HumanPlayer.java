@@ -1,7 +1,7 @@
-package fourcolors.game.players;
+package be.fourcolors.console.game.players;
 
-import fourcolors.game.cards.Card;
-import fourcolors.game.Player;
+import be.fourcolors.console.game.cards.Card;
+import be.fourcolors.console.game.Player;
 
 import java.util.ArrayList;
 import java.util.List;

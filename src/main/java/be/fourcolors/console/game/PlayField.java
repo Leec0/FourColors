@@ -1,11 +1,11 @@
-package fourcolors.game;
+package be.fourcolors.console.game;
 
-import fourcolors.game.cards.Card;
-import fourcolors.game.cards.CardDeck;
-import fourcolors.game.cards.CardColor;
-import fourcolors.game.cards.CardType;
-import fourcolors.game.players.AiEasy;
-import fourcolors.game.players.HumanPlayer;
+import be.fourcolors.console.game.cards.Card;
+import be.fourcolors.console.game.cards.CardDeck;
+import be.fourcolors.console.game.cards.CardColor;
+import be.fourcolors.console.game.cards.CardType;
+import be.fourcolors.console.game.players.AiEasy;
+import be.fourcolors.console.game.players.HumanPlayer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,7 +33,7 @@ public class PlayField {
 
     public void playGame() {
         do {
-            for (Player player : players) {
+            for (Player player : players) { //for player weghalen verderen met player turn var
                 boolean turnEnd;
                 do {
                     System.out.println(playedCard);
