@@ -16,6 +16,8 @@ public class PlayField {
     private final CardDeck cardDeck;
     private final List<Player> players;
     private static final int AMOUNT_OF_START_CARDS = 7;
+    private boolean clockWise;
+    private int playerTurn;
 
     public PlayField(int playerAmount) {
         cardDeck = new CardDeck();
@@ -32,22 +34,25 @@ public class PlayField {
     }
 
     public void playGame() {
+        playerTurn = 0;
+        Player player;
+        clockWise = true;
         do {
-            for (Player player : players) { //for player weghalen verderen met player turn var
-                boolean turnEnd;
-                do {
-                    System.out.println(playedCard);
-                    if (playedCard.getColor() == CardColor.WILD) {
-                        System.out.println(wildCardColor);
-                    }
-                    int playOption = player.playTurn();
-                    if (playOption == player.getCards().size() + 1) {
-                        turnEnd = playerDraw(player);
-                    } else {
-                        turnEnd = playerPlay(player, playOption - 1);
-                    }
-                } while (!turnEnd);
-            }
+            player = players.get(playerTurn);
+            boolean turnEnd;
+            do {
+                System.out.println(playedCard);
+                if (playedCard.getColor() == CardColor.WILD) {
+                    System.out.println(wildCardColor);
+                }
+                int playOption = player.playTurn();
+                if (playOption == player.getCards().size() + 1) {
+                    turnEnd = playerDraw(player);
+                } else {
+                    turnEnd = playerPlay(player, playOption - 1);
+                }
+            } while (!turnEnd);
+            playerTurn = nextPlayer();
         } while (!gameEnd());
     }
 
@@ -97,21 +102,12 @@ public class PlayField {
         return result;
     }
 
-    private void Draw(Player player) {
-        if (playedCard.getType() == CardType.DRAW4) {
+    private void Draw(Player player, int amount) {
             Card givenCard;
-            for (int i = 0; i < 4; i++) {
+            for (int i = 0; i < amount + 1; i++) {
                 givenCard = cardDeck.takeCard(0);
                 player.addCard(givenCard);
             }
-        }
-        if (playedCard.getType() == CardType.DRAW2) {
-            Card givenCard;
-            for (int i = 0; i < 2; i++) {
-                givenCard = cardDeck.takeCard(0);
-                player.addCard(givenCard);
-            }
-        }
     }
 
     private void setWildColor(Player player) {
@@ -159,10 +155,37 @@ public class PlayField {
             if (playerPlayedCard.getColor() == CardColor.WILD) {
                 setWildColor(player);
             }
+            if (playerPlayedCard.getType() == CardType.REVERSE) {
+                clockWise = !clockWise;
+            } else if (playerPlayedCard.getType() == CardType.SKIP) {
+                playerTurn = nextPlayer();
+            } else if (playerPlayedCard.getType() == CardType.DRAW2) {
+                Draw(players.get(nextPlayer()), 2);
+                playerTurn = nextPlayer();
+            } else if (playerPlayedCard.getType() == CardType.DRAW4) {
+                Draw(players.get(nextPlayer()), 4);
+                playerTurn = nextPlayer();
+            }
             return true;
         } else {
             System.out.println("Deze kaart kan niet gespeeld worden.");
             return false;
         }
+    }
+
+    private int nextPlayer() {
+        int playerTurn = this.playerTurn;
+        if (clockWise) {
+            playerTurn++;
+            if (playerTurn > players.size()) {
+                playerTurn = 0;
+            }
+        } else {
+            playerTurn--;
+            if (playerTurn < 0) {
+                playerTurn = players.size();
+            }
+        }
+        return playerTurn;
     }
 }

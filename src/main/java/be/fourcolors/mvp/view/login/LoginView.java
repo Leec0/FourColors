@@ -10,7 +10,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 
 public class LoginView extends BorderPane {
-    private Label laTitel;
+    private Label laTitle;
     private TextField tfUserName;
     private Button btnConfirm;
     private VBox vBox;
@@ -31,8 +31,8 @@ public class LoginView extends BorderPane {
         btnConfirm = new Button("Confirm");
         btnConfirm.setFont(new Font(15));
 
-        laTitel = new Label("Four Colors");
-        laTitel.setFont(new Font(70));
+        laTitle = new Label("Four Colors");
+        laTitle.setFont(new Font(70));
     }
 
     private void layoutNodes() {
@@ -48,11 +48,11 @@ public class LoginView extends BorderPane {
         VBox.setMargin(tfUserName, new Insets(0, 0, 20, 0));
         vBox.getChildren().addAll(tfUserName, btnConfirm);
 
-        laTitel.setAlignment(Pos.CENTER);
+        laTitle.setAlignment(Pos.CENTER);
 
         this.setCenter(vBox);
-        this.setTop(laTitel);
-        BorderPane.setAlignment(laTitel, Pos.CENTER);
+        this.setTop(laTitle);
+        BorderPane.setAlignment(laTitle, Pos.CENTER);
     }
 
     public Button getBtnConfirm() {
