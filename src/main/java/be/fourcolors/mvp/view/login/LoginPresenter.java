@@ -6,8 +6,8 @@ import be.fourcolors.mvp.model.user.Users;
 import javafx.scene.control.Alert;
 
 public class LoginPresenter {
-    private LoginView view;
-    private Users model;
+    private final LoginView view;
+    private final Users model;
 
     public LoginPresenter(LoginView view, Users model) {
         this.view = view;
@@ -40,10 +40,6 @@ public class LoginPresenter {
     }
 
     private void updateView() {
-
-    }
-
-    public void addWindowEventHandlers() {
 
     }
 }
