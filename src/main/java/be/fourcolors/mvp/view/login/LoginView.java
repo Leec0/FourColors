@@ -1,13 +1,16 @@
 package be.fourcolors.mvp.view.login;
 
+import be.fourcolors.mvp.model.user.BackgroundColor;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.image.Image;
+import javafx.scene.layout.*;
 import javafx.scene.text.Font;
+
+import java.util.Objects;
 
 public class LoginView extends BorderPane {
     private Label laTitle;
@@ -21,6 +24,9 @@ public class LoginView extends BorderPane {
     }
 
     private void initialiseNodes() {
+        Image backgroundImage = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/backgrounds/" + BackgroundColor.WHITE.getBackgroundFile())));
+        this.setBackground(new Background(new BackgroundImage(backgroundImage, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, new BackgroundSize(BackgroundSize.AUTO, BackgroundSize.AUTO, false, false, true, true))));
+
         this.setMinSize(800, 600);
         vBox = new VBox();
 
