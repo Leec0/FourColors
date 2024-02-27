@@ -1,6 +1,7 @@
 package be.fourcolors.mvp;
 
 import be.fourcolors.mvp.model.user.Users;
+import be.fourcolors.mvp.view.create.CreateView;
 import be.fourcolors.mvp.view.createUser.CreateUserPresenter;
 import be.fourcolors.mvp.view.createUser.CreateUserView;
 import be.fourcolors.mvp.view.login.LoginPresenter;
@@ -21,8 +22,8 @@ public class Main extends Application {
     public void start(Stage primaryStage){
         Main.window = primaryStage;
         Users model = new Users();
-        LoginView view = new LoginView();
-        LoginPresenter presenter = new LoginPresenter(view, model);
+        CreateUserView view = new CreateUserView();
+        CreateUserPresenter presenter = new CreateUserPresenter(view, model);
 
         window.setScene(new Scene(view));
         window.setTitle("Four Colors");

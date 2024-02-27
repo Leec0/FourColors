@@ -6,6 +6,10 @@ import be.fourcolors.mvp.model.user.User;
 import be.fourcolors.mvp.model.user.Users;
 import be.fourcolors.mvp.view.login.LoginView;
 import javafx.scene.control.Alert;
+import javafx.scene.image.Image;
+import javafx.scene.layout.*;
+
+import java.util.Objects;
 
 public class CreateUserPresenter {
     private final CreateUserView view;
@@ -39,6 +43,10 @@ public class CreateUserPresenter {
                 alert.setHeaderText(e.getMessage());
                 alert.showAndWait();
             }
+        });
+        view.getCbColor().setOnAction(actionEvent -> {
+            Image backgroundImage = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/backgrounds/" + view.getCbColor().getValue().getBackgroundFile())));
+            view.setBackground(new Background(new BackgroundImage(backgroundImage, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, new BackgroundSize(BackgroundSize.AUTO, BackgroundSize.AUTO, false, false, true, true))));
         });
     }
 
