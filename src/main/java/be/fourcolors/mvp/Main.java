@@ -1,14 +1,8 @@
 package be.fourcolors.mvp;
 
 import be.fourcolors.mvp.model.user.Users;
-import be.fourcolors.mvp.view.create.CreateView;
 import be.fourcolors.mvp.view.createUser.CreateUserPresenter;
 import be.fourcolors.mvp.view.createUser.CreateUserView;
-import be.fourcolors.mvp.view.login.LoginPresenter;
-import be.fourcolors.mvp.view.login.LoginView;
-import be.fourcolors.mvp.view.mainMenu.MainMenuPresenter;
-import be.fourcolors.mvp.view.mainMenu.MainMenuView;
-import be.fourcolors.mvp.view.settings.SettingsView;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;

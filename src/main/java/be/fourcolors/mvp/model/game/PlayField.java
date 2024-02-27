@@ -103,11 +103,11 @@ public class PlayField {
     }
 
     private void Draw(Player player, int amount) {
-            Card givenCard;
-            for (int i = 0; i < amount + 1; i++) {
-                givenCard = cardDeck.takeCard(0);
-                player.addCard(givenCard);
-            }
+        Card givenCard;
+        for (int i = 0; i < amount + 1; i++) {
+            givenCard = cardDeck.takeCard(0);
+            player.addCard(givenCard);
+        }
     }
 
     private void setWildColor(Player player) {
@@ -177,13 +177,13 @@ public class PlayField {
         int playerTurn = this.playerTurn;
         if (clockWise) {
             playerTurn++;
-            if (playerTurn > players.size()) {
+            if (playerTurn >= players.size()) {
                 playerTurn = 0;
             }
         } else {
             playerTurn--;
-            if (playerTurn < 0) {
-                playerTurn = players.size();
+            if (playerTurn <= 0) {
+                playerTurn = players.size() - 1;
             }
         }
         return playerTurn;

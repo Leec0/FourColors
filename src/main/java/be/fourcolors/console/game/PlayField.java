@@ -177,13 +177,13 @@ public class PlayField {
         int playerTurn = this.playerTurn;
         if (clockWise) {
             playerTurn++;
-            if (playerTurn > players.size()) {
+            if (playerTurn >= players.size()) {
                 playerTurn = 0;
             }
         } else {
             playerTurn--;
-            if (playerTurn < 0) {
-                playerTurn = players.size();
+            if (playerTurn <= 0) {
+                playerTurn = players.size() - 1;
             }
         }
         return playerTurn;
