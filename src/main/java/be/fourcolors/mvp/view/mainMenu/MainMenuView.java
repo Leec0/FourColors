@@ -9,6 +9,9 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.Objects;
 
 public class MainMenuView extends GridPane {
@@ -36,10 +39,13 @@ public class MainMenuView extends GridPane {
         btnLogout = new Button("Uitloggen");
         btnLogout.setFont(new Font(20));
 
-        Image logo = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/icon.png")));
-        ivLogo = new ImageView(logo);
-        ivLogo.setPreserveRatio(true);
-
+        try {
+            Image logo = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/icon.png")));
+            ivLogo = new ImageView(logo);
+            ivLogo.setPreserveRatio(true);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
         vBox = new VBox();
         vBox.getChildren().addAll(btnPlay, btnSettings, btnLogout);
     }
