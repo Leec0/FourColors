@@ -52,7 +52,6 @@ public class MainMenuView extends GridPane {
         ivLogo.fitWidthProperty().bind(this.widthProperty().divide(1.5));
         ivLogo.fitHeightProperty().bind(this.heightProperty().divide(1.5));
 
-        this.setGridLinesVisible(true);
         this.setAlignment(Pos.CENTER);
         this.setPadding(new Insets(30));
         this.setHgap(70);

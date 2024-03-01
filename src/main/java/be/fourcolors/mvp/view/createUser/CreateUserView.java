@@ -18,6 +18,7 @@ public class CreateUserView extends BorderPane {
     private TextField tfUsername;
     private ComboBox<BackgroundColor> cbColor;
     private Button btnCreate;
+    private Button btnBack;
 
     private VBox vBox;
 
@@ -51,8 +52,11 @@ public class CreateUserView extends BorderPane {
         cbColor.setStyle("-fx-font-size: 18");
         cbColor.setVisibleRowCount(5);
 
-        btnCreate = new Button("Confirm");
+        btnCreate = new Button("Maak Gebruiker");
         btnCreate.setFont(new Font(15));
+
+        btnBack = new Button("Terug");
+        btnBack.setFont(new Font(15));
 
         vBox = new VBox();
     }
@@ -70,7 +74,11 @@ public class CreateUserView extends BorderPane {
         cbColor.setPrefSize(200, 40);
         cbColor.setMaxSize(200, 40);
 
+        BorderPane.setMargin(btnBack, new Insets(30));
+        BorderPane.setAlignment(btnBack, Pos.CENTER_RIGHT);
+
         this.setCenter(vBox);
+        this.setBottom(btnBack);
     }
 
     public TextField getTfUsername() {
@@ -83,5 +91,9 @@ public class CreateUserView extends BorderPane {
 
     public Button getBtnCreate() {
         return btnCreate;
+    }
+
+    public Button getBtnBack() {
+        return btnBack;
     }
 }
