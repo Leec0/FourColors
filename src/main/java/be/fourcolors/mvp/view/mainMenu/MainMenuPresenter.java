@@ -6,6 +6,8 @@ import be.fourcolors.mvp.model.user.User;
 import be.fourcolors.mvp.model.user.Users;
 import be.fourcolors.mvp.view.login.LoginPresenter;
 import be.fourcolors.mvp.view.login.LoginView;
+import be.fourcolors.mvp.view.settings.SettingsPresenter;
+import be.fourcolors.mvp.view.settings.SettingsView;
 import javafx.scene.control.Alert;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
@@ -30,9 +32,12 @@ public class MainMenuPresenter {
             alert.showAndWait();
         });
         view.getBtnSettings().setOnAction(actionEvent -> {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("To be added.");
-            alert.showAndWait();
+            Users usersModel = new Users();
+            SettingsView settingsView = new SettingsView();
+            settingsView.getTfUsername().setText(model.getName());
+            settingsView.getCbColor().setValue(model.getFavoriteColor());
+            SettingsPresenter settingsPresenter = new SettingsPresenter(settingsView, usersModel);
+            view.getScene().setRoot(settingsView);
         });
         view.getBtnLogout().setOnAction(actionEvent -> {
             Users usersModel = new Users();
