@@ -34,7 +34,7 @@ public class LoginView extends BorderPane {
         tfUserName.setPromptText("Username");
         tfUserName.setFont(new Font(20));
 
-        btnConfirm = new Button("Confirm");
+        btnConfirm = new Button("Login");
         btnConfirm.setFont(new Font(15));
 
         laTitle = new Label("Four Colors");
@@ -59,6 +59,7 @@ public class LoginView extends BorderPane {
         this.setCenter(vBox);
         this.setTop(laTitle);
         BorderPane.setAlignment(laTitle, Pos.CENTER);
+        BorderPane.setMargin(laTitle, new Insets(75));
     }
 
     public Button getBtnConfirm() {

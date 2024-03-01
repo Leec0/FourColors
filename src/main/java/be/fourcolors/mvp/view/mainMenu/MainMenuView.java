@@ -27,13 +27,13 @@ public class MainMenuView extends GridPane {
     }
 
     private void initializeNodes() {
-        btnPlay = new Button("Play");
+        btnPlay = new Button("Speel");
         btnPlay.setFont(new Font(20));
 
-        btnSettings = new Button("Settings");
+        btnSettings = new Button("Instellingen");
         btnSettings.setFont(new Font(20));
 
-        btnLogout = new Button("Logout");
+        btnLogout = new Button("Uitloggen");
         btnLogout.setFont(new Font(20));
 
         Image logo = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/icon.png")));

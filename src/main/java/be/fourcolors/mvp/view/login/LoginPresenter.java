@@ -25,7 +25,7 @@ public class LoginPresenter {
                 String name = view.getTfUserName().getText();
                 User user = new User(name);
                 if (model.hasUser(user)) {
-                    User userModel = model.getUsers().get(name);
+                    User userModel = model.getUsers().get(name.toLowerCase());
                     MainMenuView mainMenuView = new MainMenuView();
                     MainMenuPresenter mainMenuPresenter = new MainMenuPresenter(mainMenuView, userModel);
                     view.getScene().setRoot(mainMenuView);
