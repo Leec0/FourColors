@@ -1,7 +1,7 @@
 package be.fourcolors.mvp.model.user;
 
 public class User {
-    private final String name;
+    private String name;
     private BackgroundColor favoriteColor;
     private int wins;
 
@@ -11,6 +11,10 @@ public class User {
 
     public User(String name, BackgroundColor favoriteColor) throws IllegalArgumentException {
         this(name, favoriteColor, 0);
+    }
+
+    public User(String name, User user) throws IllegalArgumentException {
+        this(name, user.favoriteColor, user.wins);
     }
 
     public User(String name, BackgroundColor favoriteColor, int wins) {
@@ -36,6 +40,10 @@ public class User {
 
     public void setFavoriteColor(BackgroundColor favoriteColor) {
         this.favoriteColor = favoriteColor;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public int getWins() {

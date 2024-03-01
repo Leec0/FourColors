@@ -43,10 +43,6 @@ public class CreateUserPresenter {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setHeaderText(e.getMessage());
                 alert.showAndWait();
-            } catch (IOException e) {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setHeaderText("FIX DEZE SHIT");
-                alert.showAndWait();
             }
         });
         view.getCbColor().setOnAction(actionEvent -> {

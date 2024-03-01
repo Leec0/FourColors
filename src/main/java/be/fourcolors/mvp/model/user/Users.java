@@ -6,20 +6,39 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
-public class Users{
+public class Users {
     private final static String SAVE_FILE = "src/main/resources/save.csv";
     private final Map<String, User> users;
 
     public Users() {
         users = new HashMap<>();
-        load(SAVE_FILE);
+        load();
     }
 
-    public void addUser(User user) throws IllegalArgumentException, IOException {
+    public void addUser(User user) throws IllegalArgumentException {
         if (!hasUser(user)) {
             users.put(user.getName().toLowerCase(), user);
-            save(SAVE_FILE);
+            save();
         }
+    }
+
+    public void updateUser(User user) {
+        if (hasUser(user)) {
+            users.replace(user.getName().toLowerCase(), user);
+            save();
+        }
+    }
+
+    public void updateUser(User userOld, User userNew) {
+        if (!userNew.getName().equalsIgnoreCase(userOld.getName())) {
+            if (!hasUser(userNew)) {
+                users.remove(userOld.getName().toLowerCase());
+                users.put(userNew.getName().toLowerCase(), userNew);
+            }
+        } else {
+            users.replace(userNew.getName().toLowerCase(), userNew);
+        }
+        save();
     }
 
     public boolean hasUser(User user) {
@@ -30,19 +49,24 @@ public class Users{
         return users;
     }
 
-    private void save(String fileName) throws IOException {
-        try (PrintWriter printWriter = new PrintWriter(new FileWriter(fileName))) {
-            if (new File(fileName).length() == 0) {
-                printWriter.println("\"name\",\"color\",\"wins\"");
+    private void save() {
+        try {
+            String fileName = SAVE_FILE;
+            try (PrintWriter printWriter = new PrintWriter(new FileWriter(fileName))) {
+                if (new File(fileName).length() == 0) {
+                    printWriter.println("\"name\",\"color\",\"wins\"");
+                }
+                for (User user : users.values()) {
+                    printWriter.println(user);
+                }
             }
-            for (User user : users.values()) {
-                printWriter.println(user);
-            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 
-    private void load(String fileName) {
-        try (Scanner scanner = new Scanner(new File(fileName))){
+    private void load() {
+        try (Scanner scanner = new Scanner(new File(SAVE_FILE))) {
             while (scanner.hasNextLine()) {
                 String userData = scanner.nextLine();
                 if (!userData.equals("\"name\",\"color\",\"wins\"")) {

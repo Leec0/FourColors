@@ -1,12 +1,22 @@
 package be.fourcolors.mvp.view.settings;
 
+import be.fourcolors.mvp.model.user.BackgroundColor;
 import be.fourcolors.mvp.model.user.User;
+import be.fourcolors.mvp.model.user.Users;
+import be.fourcolors.mvp.view.mainMenu.MainMenuPresenter;
+import be.fourcolors.mvp.view.mainMenu.MainMenuView;
+import javafx.scene.control.Alert;
+import javafx.scene.control.TextInputDialog;
+import javafx.scene.image.Image;
+import javafx.scene.layout.*;
+
+import java.util.Objects;
 
 
 public class SettingsPresenter {
 
     private final SettingsView view;
-    private final User model;
+    private User model;
 
     public SettingsPresenter(SettingsView view, User model) {
         this.view = view;
@@ -20,10 +30,39 @@ public class SettingsPresenter {
 
         });
         view.getBtnChangeName().setOnAction(actionEvent -> {
-
+            Users users = new Users();
+            TextInputDialog td = new TextInputDialog(model.getName());
+            td.setTitle("Verander gebruikersnaam");
+            td.setHeaderText("Geef hieronder een nieuwe gebruikersnaam in.");
+            td.showAndWait();
+            String newName = td.getEditor().getText();
+            try {
+                User userNew = new User(newName, model);
+                if (!newName.equalsIgnoreCase(model.getName())) {
+                    if (users.hasUser(userNew)) {
+                        throw new IllegalArgumentException("Username bestaat al!");
+                    }
+                }
+                users.updateUser(model, userNew);
+                model = userNew;
+            } catch (IllegalArgumentException e) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setHeaderText(e.getMessage());
+                alert.showAndWait();
+            }
+        });
+        view.getCbChangeColor().setOnAction(actionEvent -> {
+            Users users = new Users();
+            BackgroundColor backgroundColor = view.getCbChangeColor().getValue();
+            model.setFavoriteColor(backgroundColor);
+            users.updateUser(model);
+            Image backgroundImage = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/backgrounds/" + view.getCbChangeColor().getValue().getBackgroundFile())));
+            view.setBackground(new Background(new BackgroundImage(backgroundImage, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, new BackgroundSize(BackgroundSize.AUTO, BackgroundSize.AUTO, false, false, true, true))));
         });
         view.getBtnBack().setOnAction(actionEvent -> {
-
+            MainMenuView mainMenuView = new MainMenuView();
+            MainMenuPresenter mainMenuPresenter = new MainMenuPresenter(mainMenuView, model);
+            view.getScene().setRoot(mainMenuView);
         });
     }
 
