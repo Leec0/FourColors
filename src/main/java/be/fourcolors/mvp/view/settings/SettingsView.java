@@ -6,24 +6,22 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 import javafx.util.StringConverter;
 
+
 import java.util.Objects;
 
 public class SettingsView extends BorderPane {
 
-    private Label laTitle;
-    private TextField tfUsername;
-    private ComboBox<BackgroundColor> cbColor;
-    private Button btnCreate;
+    private Label laSettings;
+    private Button btnChangeName;
+    private ComboBox<BackgroundColor> cbChangeColor;
+    private Button btnRules;
     private Button btnBack;
-
-    private VBox vBox;
-
+    private VBox buttonBox;
 
     public SettingsView() {
         initialiseNodes();
@@ -33,16 +31,15 @@ public class SettingsView extends BorderPane {
     }
 
     private void initialiseNodes() {
-        laTitle = new Label("Instellingen");
-        laTitle.setFont(new Font(22));
+        laSettings = new Label("Instellingen");
+        laSettings.setFont(new Font(30));
 
-        tfUsername = new TextField();
-        tfUsername.setPromptText("Username");
-        tfUsername.setFont(new Font(20));
+        btnChangeName = new Button("Verander naam");
+        btnChangeName.setFont(new Font(20));
 
-        cbColor = new ComboBox<>();
-        cbColor.getItems().addAll(BackgroundColor.values());
-        cbColor.setConverter(new StringConverter<>() {
+        cbChangeColor = new ComboBox<>();
+        cbChangeColor.getItems().addAll(BackgroundColor.values());
+        cbChangeColor.setConverter(new StringConverter<>() {
             @Override
             public String toString(BackgroundColor backgroundColor) {
                 return backgroundColor.getReadableName();
@@ -53,53 +50,47 @@ public class SettingsView extends BorderPane {
                 return null;
             }
         });
-        cbColor.setPromptText("Kies een kleur");
-        cbColor.setStyle("-fx-font-size: 18");
-        cbColor.setVisibleRowCount(5);
+        cbChangeColor.setPromptText("Kies een kleur");
+        cbChangeColor.setStyle("-fx-font-size: 20");
+        cbChangeColor.setVisibleRowCount(5);
 
-        btnCreate = new Button("Maak Gebruiker");
-        btnCreate.setFont(new Font(15));
+        btnRules = new Button("Regels");
+        btnRules.setFont(new Font(20));
 
         btnBack = new Button("Terug");
-        btnBack.setFont(new Font(15));
+        btnBack.setFont(new Font(20));
 
-        vBox = new VBox();
+        buttonBox = new VBox();
     }
 
     private void layoutNodes() {
-        BorderPane.setMargin(laTitle, new Insets(50));
-        BorderPane.setAlignment(laTitle, Pos.CENTER);
+        BorderPane.setAlignment(laSettings, Pos.CENTER);
+        BorderPane.setMargin(laSettings, new Insets(50, 0, 0, 0));
+        this.setTop(laSettings);
 
-        VBox.setMargin(tfUsername, new Insets(5));
-        VBox.setMargin(cbColor, new Insets(5));
-        VBox.setMargin(btnCreate, new Insets(40));
-        vBox.getChildren().addAll(tfUsername, cbColor, btnCreate);
-        vBox.setAlignment(Pos.CENTER);
-
-        tfUsername.setPrefSize(250, 50);
-        tfUsername.setMaxSize(250, 50);
-
-        cbColor.setPrefSize(200, 40);
-        cbColor.setMaxSize(200, 40);
-
-        BorderPane.setMargin(btnBack, new Insets(30));
-        BorderPane.setAlignment(btnBack, Pos.CENTER_RIGHT);
-
-        this.setCenter(vBox);
-        this.setBottom(btnBack);
-        this.setTop(laTitle);
+        btnRules.setPrefWidth(200);
+        btnChangeName.setPrefWidth(200);
+        cbChangeColor.setPrefWidth(200);
+        btnBack.setPrefWidth(200);
+        buttonBox.getChildren().addAll(btnRules, btnChangeName, cbChangeColor, btnBack);
+        buttonBox.setAlignment(Pos.CENTER);
+        VBox.setMargin(btnRules, new Insets(0, 0, 20, 0));
+        VBox.setMargin(btnChangeName, new Insets(0, 0, 20, 0));
+        VBox.setMargin(cbChangeColor, new Insets(0, 0, 20, 0));
+        VBox.setMargin(btnBack, new Insets(40, 0, 0, 0));
+        this.setCenter(buttonBox);
     }
 
-    public TextField getTfUsername() {
-        return tfUsername;
+    public Button getBtnChangeName() {
+        return btnChangeName;
     }
 
-    public ComboBox<BackgroundColor> getCbColor() {
-        return cbColor;
+    public ComboBox<BackgroundColor> getCbChangeColor() {
+        return cbChangeColor;
     }
 
-    public Button getBtnCreate() {
-        return btnCreate;
+    public Button getBtnRules() {
+        return btnRules;
     }
 
     public Button getBtnBack() {

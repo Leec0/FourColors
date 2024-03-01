@@ -32,11 +32,10 @@ public class MainMenuPresenter {
             alert.showAndWait();
         });
         view.getBtnSettings().setOnAction(actionEvent -> {
-            Users usersModel = new Users();
             SettingsView settingsView = new SettingsView();
-            settingsView.getTfUsername().setText(model.getName());
-            settingsView.getCbColor().setValue(model.getFavoriteColor());
-            SettingsPresenter settingsPresenter = new SettingsPresenter(settingsView, usersModel);
+            SettingsPresenter settingsPresenter = new SettingsPresenter(settingsView, model);
+            settingsView.getCbChangeColor().setValue(model.getFavoriteColor());
+            settingsView.setBackground(view.getBackground());
             view.getScene().setRoot(settingsView);
         });
         view.getBtnLogout().setOnAction(actionEvent -> {
