@@ -6,6 +6,7 @@ import be.fourcolors.mvp.model.game.cards.CardDeck;
 import be.fourcolors.mvp.model.game.cards.CardType;
 import be.fourcolors.mvp.model.game.players.AiEasy;
 import be.fourcolors.mvp.model.game.players.HumanPlayer;
+import be.fourcolors.mvp.model.user.User;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,8 +19,10 @@ public class PlayField {
     private static final int AMOUNT_OF_START_CARDS = 7;
     private boolean clockWise;
     private int playerTurn;
+    private final User playerUser;
 
-    public PlayField(int playerAmount) {
+    public PlayField(int playerAmount, User playerUser) {
+        this.playerUser = playerUser;
         cardDeck = new CardDeck();
         players = new ArrayList<>();
         setStartCard();
@@ -84,7 +87,7 @@ public class PlayField {
     }
 
     private boolean canBePlayed(Card card) {
-        boolean result = false;
+        boolean result;
         result = card.getColor() == CardColor.WILD;
         if (!result) {
             result = card.getColor() == playedCard.getColor();
@@ -159,11 +162,13 @@ public class PlayField {
                 clockWise = !clockWise;
             } else if (playerPlayedCard.getType() == CardType.SKIP) {
                 playerTurn = nextPlayer();
-            } else if (playerPlayedCard.getType() == CardType.DRAW2) {
-                Draw(players.get(nextPlayer()), 2);
-                playerTurn = nextPlayer();
-            } else if (playerPlayedCard.getType() == CardType.DRAW4) {
-                Draw(players.get(nextPlayer()), 4);
+            } else if (playerPlayedCard.getType() == CardType.DRAW) {
+                if (playerPlayedCard.getColor() == CardColor.WILD) {
+                    Draw(players.get(nextPlayer()), 2);
+                }
+                else {
+                    Draw(players.get(nextPlayer()), 4);
+                }
                 playerTurn = nextPlayer();
             }
             return true;

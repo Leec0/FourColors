@@ -50,7 +50,7 @@ public class CardDeck {
         for (CardColor cardColor : CardColor.values()) {
             if (cardColor == CardColor.WILD) {
                 for (int i = 0; i < 4; i++) {
-                    cards.add(new Card(CardType.DRAW4, cardColor));
+                    cards.add(new Card(CardType.DRAW, cardColor));
                     cards.add(new Card(CardType.CHANGE, cardColor));
                 }
             } else {
@@ -60,7 +60,7 @@ public class CardDeck {
                     cards.add(new Card(i, cardColor));
                 }
                 for (int i = 0; i < 2; i++) {
-                    cards.add(new Card(CardType.DRAW2, cardColor));
+                    cards.add(new Card(CardType.DRAW, cardColor));
                     cards.add(new Card(CardType.REVERSE, cardColor));
                     cards.add(new Card(CardType.SKIP, cardColor));
                 }

@@ -21,9 +21,7 @@ public class LoginPresenter {
     }
 
     private void addEventHandlers() {
-        view.getBtnConfirm().setOnAction(actionEvent -> {
-            loginOrCreate();
-        });
+        view.getBtnConfirm().setOnAction(actionEvent -> loginOrCreate());
         view.setOnKeyPressed(keyEvent -> {
             if (keyEvent.getCode() == KeyCode.ENTER) {
                 loginOrCreate();
@@ -44,16 +42,22 @@ public class LoginPresenter {
                 MainMenuView mainMenuView = new MainMenuView();
                 MainMenuPresenter mainMenuPresenter = new MainMenuPresenter(mainMenuView, userModel);
                 view.getScene().setRoot(mainMenuView);
+                mainMenuPresenter.addWindowEventHandlers();
             } else {
                 CreateUserView createUserView = new CreateUserView();
                 createUserView.getTfUsername().setText(name);
                 CreateUserPresenter createUserPresenter = new CreateUserPresenter(createUserView, model);
                 view.getScene().setRoot(createUserView);
+                createUserPresenter.addWindowEventHandlers();
             }
         } catch (IllegalArgumentException e) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setHeaderText(e.getMessage());
             alert.showAndWait();
         }
+    }
+
+    public void addWindowEventHandlers() {
+
     }
 }

@@ -11,7 +11,6 @@ import javafx.scene.control.Alert;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 
-import java.io.IOException;
 import java.util.Objects;
 
 public class CreateUserPresenter {
@@ -38,6 +37,7 @@ public class CreateUserPresenter {
                     MainMenuView mainMenuView = new MainMenuView();
                     MainMenuPresenter mainMenuPresenter = new MainMenuPresenter(mainMenuView, user);
                     view.getScene().setRoot(mainMenuView);
+                    mainMenuPresenter.addWindowEventHandlers();
                 }
             } catch (IllegalArgumentException e) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -53,10 +53,15 @@ public class CreateUserPresenter {
             LoginView loginView = new LoginView();
             LoginPresenter loginPresenter = new LoginPresenter(loginView, model);
             view.getScene().setRoot(loginView);
+            loginPresenter.addWindowEventHandlers();
         });
     }
 
     private void updateView() {
+
+    }
+
+    public void addWindowEventHandlers() {
 
     }
 }

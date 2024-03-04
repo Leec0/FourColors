@@ -25,6 +25,7 @@ public class Main extends Application {
         primaryStage.setMinWidth(800);
         primaryStage.setHeight(600);
         primaryStage.setWidth(800);
+        presenter.addWindowEventHandlers();
         primaryStage.show();
     }
 

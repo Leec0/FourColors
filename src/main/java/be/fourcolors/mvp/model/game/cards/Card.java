@@ -33,4 +33,11 @@ public class Card {
     public CardType getType() {
         return type;
     }
+
+    public String getFileName() {
+        if (type != null) {
+            return String.format("%s_%s", cardColor.getFileName(), type.getFileName());
+        }
+        return String.format("%s_%d", cardColor.getFileName(), number);
+    }
 }

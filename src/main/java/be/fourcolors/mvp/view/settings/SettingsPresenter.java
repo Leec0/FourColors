@@ -63,9 +63,14 @@ public class SettingsPresenter {
             MainMenuView mainMenuView = new MainMenuView();
             MainMenuPresenter mainMenuPresenter = new MainMenuPresenter(mainMenuView, model);
             view.getScene().setRoot(mainMenuView);
+            mainMenuPresenter.addWindowEventHandlers();
         });
     }
 
     private void updateView() {
+    }
+
+    public void addWindowEventHandlers() {
+
     }
 }
