@@ -34,6 +34,7 @@ public class HumanPlayer implements Player {
     @Override
     public void addCard(Card card) {
         cards.add(card);
+        cards.sort(Card::compareTo);
     }
 
     @Override

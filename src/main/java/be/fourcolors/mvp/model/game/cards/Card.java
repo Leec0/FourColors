@@ -1,6 +1,8 @@
 package be.fourcolors.mvp.model.game.cards;
 
-public class Card {
+import java.util.Objects;
+
+public class Card implements Comparable<Card> {
     private final int number;
     private final CardType type;
     private final CardColor cardColor;
@@ -39,5 +41,22 @@ public class Card {
             return String.format("%s_%s", cardColor.getFileName(), type.getFileName());
         }
         return String.format("%s_%d", cardColor.getFileName(), number);
+    }
+
+    @Override
+    public int compareTo(Card o) {
+        if (this.cardColor.compareTo(o.cardColor) == 0) {
+            if (this.type != null && o.type != null) {
+                return this.type.compareTo(o.type);
+            } else if (this.type == null && o.type != null) {
+                return -1;
+            } else if (this.type != null) {
+                return 1;
+            } else {
+                return Integer.compare(this.number, o.number);
+            }
+        } else {
+            return this.cardColor.compareTo(o.cardColor);
+        }
     }
 }
