@@ -1,22 +1,22 @@
 package be.fourcolors.mvp.view.game;
 
-import be.fourcolors.console.game.cards.Card;
+import be.fourcolors.mvp.model.game.cards.Card;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.Priority;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
+import java.util.Objects;
 
 public class GameView extends BorderPane {
 
-    private HBox cardsPlayer1;
-    private HBox cardsPlayer2;
-    private HashMap<Card,Button> buttonsPlayer1;
-    private HashMap<Card,Button> buttonsPlayer2;
+    private HBox cardsPlayer;
+    private HashMap<Card,Button> buttonsPlayer;
     private HBox centerBox;
     private Button cardPile;
     private Button oneCardButton;
@@ -29,34 +29,52 @@ public class GameView extends BorderPane {
     }
 
     private void initializeNodes() {
-        cardsPlayer1 = new HBox();
-        buttonsPlayer1 = new HashMap<>();
-
-        cardsPlayer2 = new HBox();
-        buttonsPlayer2 = new HashMap<>();
+        cardsPlayer = new HBox();
+        buttonsPlayer = new HashMap<>();
 
         centerBox = new HBox();
-        cardPile = new Button("Pile");
+        cardPile = new Button();
         oneCardButton = new Button("UNO");
         playedCard = new ImageView();
     }
 
     private void layoutNodes() {
+        centerBox.setAlignment(Pos.CENTER);
+        HBox.setMargin(playedCard, new Insets(0, 50, 0, 50));
         centerBox.getChildren().add(cardPile);
         centerBox.getChildren().add(playedCard);
         centerBox.getChildren().add(oneCardButton);
 
-        setTop(cardsPlayer2);
-        setBottom(cardsPlayer1);
+        playedCard.setPreserveRatio(true);
+        playedCard.setFitWidth(200);
+        Image deckImage = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/cards/normal/deck.png")));
+        ImageView deckView = new ImageView(deckImage);
+        deckView.setPreserveRatio(true);
+        deckView.setFitWidth(200);
+        cardPile.setGraphic(deckView);
+
+        cardsPlayer.setAlignment(Pos.CENTER);
+        setMargin(cardsPlayer, new Insets(20));
+
+        setBottom(cardsPlayer);
         setCenter(centerBox);
     }
 
-    public HashMap<Card, Button> getButtonsPlayer1() {
-        return buttonsPlayer1;
+    public void addButton(Card card) {
+        Button button = new Button();
+        String cardFile = "/images/cards/normal/" + card.getFileName() + ".png";
+        Image image = new Image(Objects.requireNonNull(getClass().getResourceAsStream(cardFile)));
+        ImageView imageView = new ImageView(image);
+        imageView.setPreserveRatio(true);
+        imageView.setFitWidth(75);
+        button.setGraphic(imageView);
+        HBox.setMargin(button, new Insets(0, 5, 0, 5));
+        buttonsPlayer.put(card, button);
+        cardsPlayer.getChildren().add(button);
     }
 
-    public HashMap<Card, Button> getButtonsPlayer2() {
-        return buttonsPlayer2;
+    public HashMap<Card, Button> getButtonsPlayer() {
+        return buttonsPlayer;
     }
 
     public Button getCardPile() {

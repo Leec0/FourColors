@@ -29,7 +29,7 @@ public class MainMenuPresenter {
 
     private void addEventHandlers() {
         view.getBtnPlay().setOnAction(actionEvent -> {
-            PlayField playFieldModel = new PlayField(2, model);
+            PlayField playFieldModel = new PlayField(model);
             GameView gameView = new GameView();
             GamePresenter gamePresenter = new GamePresenter(gameView, playFieldModel);
             view.getScene().setRoot(gameView);

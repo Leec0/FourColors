@@ -1,7 +1,9 @@
 package be.fourcolors.mvp.view.game;
 
 import be.fourcolors.mvp.model.game.PlayField;
+import be.fourcolors.mvp.model.game.Player;
 import be.fourcolors.mvp.model.game.cards.Card;
+import be.fourcolors.mvp.model.game.players.HumanPlayer;
 import javafx.scene.image.Image;
 
 import java.util.Objects;
@@ -18,11 +20,14 @@ public class GamePresenter {
     }
 
     private void addEventHandlers() {
+        view.getCardPile().setOnAction(actionEvent -> {
 
+        });
     }
 
     private void updateView() {
         setPlayedCard();
+        setPlayerCards();
     }
 
     public void addWindowEventHandlers() {
@@ -32,8 +37,18 @@ public class GamePresenter {
     private void setPlayedCard() {
         Card playedCard = model.getPlayedCard();
         String playedCardFile = "/images/cards/normal/" + playedCard.getFileName() + ".png";
-        System.out.println(playedCardFile);
         Image image = new Image(Objects.requireNonNull(getClass().getResourceAsStream(playedCardFile)));
         view.getPlayedCard().setImage(image);
+    }
+
+
+    private void setPlayerCards() {
+        for (Player player : model.getPlayers()) {
+            if (player.getClass().equals(HumanPlayer.class)) {
+                for (Card card : player.getCards()) {
+                    view.addButton(card);
+                }
+            }
+        }
     }
 }

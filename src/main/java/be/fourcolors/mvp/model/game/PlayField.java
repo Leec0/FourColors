@@ -21,14 +21,12 @@ public class PlayField {
     private int playerTurn;
     private final User playerUser;
 
-    public PlayField(int playerAmount, User playerUser) {
+    public PlayField(User playerUser) {
         this.playerUser = playerUser;
         cardDeck = new CardDeck();
         players = new ArrayList<>();
         setStartCard();
-        if (playerAmount < 2 || playerAmount > 4) {
-            playerAmount = 2;
-        }
+        int playerAmount = 2;
         players.add(new HumanPlayer());
         for (int i = 0; i < playerAmount - 1; i++) {
             players.add(new AiEasy());
@@ -192,5 +190,9 @@ public class PlayField {
             }
         }
         return playerTurn;
+    }
+
+    public List<Player> getPlayers() {
+        return players;
     }
 }
