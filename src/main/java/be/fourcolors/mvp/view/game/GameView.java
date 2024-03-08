@@ -1,6 +1,7 @@
 package be.fourcolors.mvp.view.game;
 
 import be.fourcolors.mvp.model.game.cards.Card;
+import javafx.animation.FadeTransition;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -9,14 +10,14 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
+import javafx.util.Duration;
 
-import java.util.HashMap;
-import java.util.Objects;
+import java.util.*;
 
 public class GameView extends BorderPane {
 
     private HBox cardsPlayer;
-    private HashMap<Card,Button> buttonsPlayer;
+    private Map<Card, Button> buttonsPlayer;
     private HBox centerBox;
     private Button cardPile;
     private Button oneCardButton;
@@ -60,21 +61,19 @@ public class GameView extends BorderPane {
         setCenter(centerBox);
     }
 
-    public void addButton(Card card) {
-        Button button = new Button();
-        String cardFile = "/images/cards/normal/" + card.getFileName() + ".png";
-        Image image = new Image(Objects.requireNonNull(getClass().getResourceAsStream(cardFile)));
-        ImageView imageView = new ImageView(image);
-        imageView.setPreserveRatio(true);
-        imageView.setFitWidth(75);
-        button.setGraphic(imageView);
-        HBox.setMargin(button, new Insets(0, 5, 0, 5));
-        buttonsPlayer.put(card, button);
-        cardsPlayer.getChildren().add(button);
-    }
-
-    public HashMap<Card, Button> getButtonsPlayer() {
-        return buttonsPlayer;
+    public void addButtons(List<Card> cards) {
+        cardsPlayer.getChildren().clear();
+        for (Card card : cards) {
+            Button button = new Button();
+            String cardFile = "/images/cards/normal/" + card.getFileName() + ".png";
+            Image image = new Image(Objects.requireNonNull(getClass().getResourceAsStream(cardFile)));
+            ImageView imageView = new ImageView(image);
+            imageView.setPreserveRatio(true);
+            imageView.setFitWidth(75);
+            button.setGraphic(imageView);
+            buttonsPlayer.put(card, button);
+            cardsPlayer.getChildren().add(buttonsPlayer.get(card));
+        }
     }
 
     public Button getCardPile() {
@@ -87,5 +86,9 @@ public class GameView extends BorderPane {
 
     public ImageView getPlayedCard() {
         return playedCard;
+    }
+
+    public Map<Card, Button> getButtonsPlayer() {
+        return buttonsPlayer;
     }
 }

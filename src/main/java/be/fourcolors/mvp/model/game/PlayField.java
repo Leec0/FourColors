@@ -19,10 +19,8 @@ public class PlayField {
     private static final int AMOUNT_OF_START_CARDS = 7;
     private boolean clockWise;
     private int playerTurn;
-    private final User playerUser;
 
-    public PlayField(User playerUser) {
-        this.playerUser = playerUser;
+    public PlayField() {
         cardDeck = new CardDeck();
         players = new ArrayList<>();
         setStartCard();
@@ -33,7 +31,7 @@ public class PlayField {
         }
         givePlayerCards();
     }
-
+/*
     public void playGame() {
         playerTurn = 0;
         Player player;
@@ -60,14 +58,15 @@ public class PlayField {
     public Card getPlayedCard() {
         return playedCard;
     }
-
+*/
+/*
     public void printPlayerCards() {
         for (Player player : players) {
             System.out.println(player);
             System.out.println();
         }
     }
-
+*/
     private void setStartCard() {
         playedCard = cardDeck.takeCard(0);
         while (playedCard.getColor() == CardColor.WILD) {
@@ -111,24 +110,11 @@ public class PlayField {
         }
     }
 
-    private void setWildColor(Player player) {
-        switch (player.selectWildColor()) {
-            case 1:
-                wildCardColor = CardColor.RED;
-                break;
-            case 2:
-                wildCardColor = CardColor.BLUE;
-                break;
-            case 3:
-                wildCardColor = CardColor.YELLOW;
-                break;
-            case 4:
-                wildCardColor = CardColor.GREEN;
-                break;
-        }
+    public void setWildColor(CardColor cardColor) {
+        wildCardColor = cardColor;
     }
 
-    private boolean gameEnd() {
+    public boolean gameEnd() {
         for (Player player : players) {
             if (player.getCards().isEmpty()) {
                 return true;
@@ -137,25 +123,23 @@ public class PlayField {
         return false;
     }
 
-    private boolean playerDraw(Player player) {
+    public boolean playerDraw(Player player) {
         Card drawedCard;
         boolean emptyDeck;
         do {
+            emptyDeck = cardDeck.getSize() <= 0;
+            if (emptyDeck) return true;
             drawedCard = cardDeck.takeCard(0);
             player.addCard(drawedCard);
-            emptyDeck = cardDeck.getSize() <= 0;
-        } while (!canBePlayed(drawedCard) && !emptyDeck);
+        } while (!canBePlayed(drawedCard));
         return true;
     }
 
-    private boolean playerPlay(Player player, int cardIndex) {
-        Card playerPlayedCard = player.getCards().get(cardIndex);
+    public boolean playerPlay(Player player, Card playerPlayedCard) {
         if (canBePlayed(playerPlayedCard)) {
             cardDeck.addCard(playedCard);
-            playedCard = player.playCard(cardIndex);
-            if (playerPlayedCard.getColor() == CardColor.WILD) {
-                setWildColor(player);
-            }
+            playedCard = playerPlayedCard;
+            player.playCard(playerPlayedCard);
             if (playerPlayedCard.getType() == CardType.REVERSE) {
                 clockWise = !clockWise;
             } else if (playerPlayedCard.getType() == CardType.SKIP) {
@@ -171,7 +155,6 @@ public class PlayField {
             }
             return true;
         } else {
-            System.out.println("Deze kaart kan niet gespeeld worden.");
             return false;
         }
     }
@@ -194,5 +177,9 @@ public class PlayField {
 
     public List<Player> getPlayers() {
         return players;
+    }
+
+    public Card getPlayedCard() {
+        return playedCard;
     }
 }

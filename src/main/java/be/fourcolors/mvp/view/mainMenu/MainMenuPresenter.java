@@ -29,9 +29,9 @@ public class MainMenuPresenter {
 
     private void addEventHandlers() {
         view.getBtnPlay().setOnAction(actionEvent -> {
-            PlayField playFieldModel = new PlayField(model);
+            PlayField playFieldModel = new PlayField();
             GameView gameView = new GameView();
-            GamePresenter gamePresenter = new GamePresenter(gameView, playFieldModel);
+            GamePresenter gamePresenter = new GamePresenter(gameView, playFieldModel, model);
             view.getScene().setRoot(gameView);
             gamePresenter.addWindowEventHandlers();
         });

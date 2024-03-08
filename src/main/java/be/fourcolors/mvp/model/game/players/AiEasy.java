@@ -22,15 +22,8 @@ public class AiEasy implements Player {
     }
 
     @Override
-    public int playTurn() {
-        return random.nextInt(cards.size() + 1) + 1;
-    }
-
-    @Override
-    public Card playCard(int index) {
-        Card returnCard = cards.get(index);
-        cards.remove(index);
-        return returnCard;
+    public void playCard(Card card) {
+        cards.remove(card);
     }
 
     @Override

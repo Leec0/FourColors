@@ -48,6 +48,10 @@ public class Users {
     public Map<String, User> getUsers() {
         return users;
     }
+    public void addWin(User user) {
+        users.get(user.getName().toLowerCase()).addWin();
+        save();
+    }
 
     private void save() {
         try {

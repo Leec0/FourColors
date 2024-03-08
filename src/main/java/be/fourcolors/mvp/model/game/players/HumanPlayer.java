@@ -20,15 +20,8 @@ public class HumanPlayer implements Player {
     }
 
     @Override
-    public int playTurn() {
-        return playMenu();
-    }
-
-    @Override
-    public Card playCard(int index) {
-        Card returnCard = cards.get(index);
-        cards.remove(index);
-        return returnCard;
+    public void playCard(Card card) {
+        cards.remove(card);
     }
 
     @Override
@@ -49,27 +42,6 @@ public class HumanPlayer implements Player {
         }
         return stringBuilder.toString();
     }
-
-    private int playMenu() {
-        int selectedOption;
-        Scanner sc = new Scanner(System.in);
-        StringBuilder menuText = new StringBuilder();
-        for (int i = 0; i < cards.size(); i++) {
-            menuText.append(String.format("%d: %s%n", i + 1, cards.get(i)));
-        }
-        menuText.append(String.format("%d: %s%n", cards.size() + 1, "Neem kaart"));
-        menuText.append("Select: ");
-        System.out.print(menuText);
-        do {
-            selectedOption = sc.nextInt();
-            if (selectedOption < 1 || selectedOption > cards.size() + 1) {
-                System.out.println("Foutieve input");
-                System.out.print(menuText);
-            }
-        } while (selectedOption < 1 || selectedOption > cards.size() + 1);
-        return selectedOption;
-    }
-
     @Override
     public int selectWildColor() {
         String menuText = """
