@@ -9,6 +9,7 @@ import java.util.Scanner;
 
 public class HumanPlayer implements Player {
     private final List<Card> cards;
+    private boolean playerTurn;
 
     public HumanPlayer() {
         cards = new ArrayList<>();
@@ -61,5 +62,15 @@ public class HumanPlayer implements Player {
             }
         } while (selection <= 0 || selection > 4);
         return selection;
+    }
+
+    @Override
+    public boolean isPlayerTurn() {
+        return playerTurn;
+    }
+
+    @Override
+    public void setPlayerTurn(boolean playerTurn) {
+        this.playerTurn = playerTurn;
     }
 }

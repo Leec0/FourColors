@@ -10,6 +10,7 @@ import java.util.Random;
 public class AiEasy implements Player {
     private final List<Card> cards;
     private final Random random;
+    private boolean playerTurn;
 
     public AiEasy() {
         cards = new ArrayList<>();
@@ -39,5 +40,15 @@ public class AiEasy implements Player {
     @Override
     public int selectWildColor() {
         return random.nextInt(4) + 1;
+    }
+
+    @Override
+    public boolean isPlayerTurn() {
+        return playerTurn;
+    }
+
+    @Override
+    public void setPlayerTurn(boolean playerTurn) {
+        this.playerTurn = playerTurn;
     }
 }

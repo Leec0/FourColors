@@ -67,6 +67,7 @@ public class PlayField {
         }
     }
 */
+
     private void setStartCard() {
         playedCard = cardDeck.takeCard(0);
         while (playedCard.getColor() == CardColor.WILD) {
