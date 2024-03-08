@@ -80,13 +80,25 @@ public class GamePresenter {
             Button button = view.getButtonsPlayer().get(card);
             button.setOnAction(actionEvent -> {
                 if (card.getColor() == CardColor.WILD) {
-                    ChoiceDialog<CardColor> choiceDialog = new ChoiceDialog<>();
-                    choiceDialog.getItems().add(CardColor.RED);
-                    choiceDialog.getItems().add(CardColor.GREEN);
-                    choiceDialog.getItems().add(CardColor.BLUE);
-                    choiceDialog.getItems().add(CardColor.YELLOW);
-                    choiceDialog.showAndWait();
-                    model.setWildColor(choiceDialog.getSelectedItem());
+                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                    alert.setTitle("Four Colors");
+                    alert.setHeaderText("Kies de kleur van de wild card.");
+                    ButtonType buttonTypeRed = new ButtonType("Rood");
+                    ButtonType buttonTypeGreen = new ButtonType("Groen");
+                    ButtonType buttonTypeBlue = new ButtonType("Blauw");
+                    ButtonType buttonTypeYellow = new ButtonType("Geel");
+                    alert.getButtonTypes().setAll(buttonTypeRed, buttonTypeGreen, buttonTypeBlue, buttonTypeYellow);
+                    alert.showAndWait().ifPresent(buttonType -> {
+                        if (buttonType.equals(buttonTypeRed)) {
+                            model.setWildColor(CardColor.RED);
+                        } else if (buttonType.equals(buttonTypeGreen)) {
+                            model.setWildColor(CardColor.GREEN);
+                        } else if (buttonType.equals(buttonTypeBlue)) {
+                            model.setWildColor(CardColor.BLUE);
+                        } else if (buttonType.equals(buttonTypeYellow)) {
+                            model.setWildColor(CardColor.YELLOW);
+                        }
+                    });
                 }
                 model.playerPlay(player, card);
                 updateView();
