@@ -43,26 +43,6 @@ public class HumanPlayer implements Player {
         }
         return stringBuilder.toString();
     }
-    @Override
-    public int selectWildColor() {
-        String menuText = """
-                1: RED
-                2: BLUE
-                3: YELLOW
-                4: GREEN
-                Select:""";
-        System.out.print(menuText);
-        int selection;
-        do {
-            Scanner sc = new Scanner(System.in);
-            selection = sc.nextInt();
-            if (selection <= 0 || selection > 4) {
-                System.out.println("Foutieve invoer");
-                System.out.print(menuText);
-            }
-        } while (selection <= 0 || selection > 4);
-        return selection;
-    }
 
     @Override
     public boolean isPlayerTurn() {

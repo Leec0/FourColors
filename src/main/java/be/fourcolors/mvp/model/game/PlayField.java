@@ -6,7 +6,6 @@ import be.fourcolors.mvp.model.game.cards.CardDeck;
 import be.fourcolors.mvp.model.game.cards.CardType;
 import be.fourcolors.mvp.model.game.players.AiEasy;
 import be.fourcolors.mvp.model.game.players.HumanPlayer;
-import be.fourcolors.mvp.model.user.User;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,43 +29,8 @@ public class PlayField {
             players.add(new AiEasy());
         }
         givePlayerCards();
+        players.get(0).setPlayerTurn(true);
     }
-/*
-    public void playGame() {
-        playerTurn = 0;
-        Player player;
-        clockWise = true;
-        do {
-            player = players.get(playerTurn);
-            boolean turnEnd;
-            do {
-                System.out.println(playedCard);
-                if (playedCard.getColor() == CardColor.WILD) {
-                    System.out.println(wildCardColor);
-                }
-                int playOption = player.playTurn();
-                if (playOption == player.getCards().size() + 1) {
-                    turnEnd = playerDraw(player);
-                } else {
-                    turnEnd = playerPlay(player, playOption - 1);
-                }
-            } while (!turnEnd);
-            playerTurn = nextPlayer();
-        } while (!gameEnd());
-    }
-
-    public Card getPlayedCard() {
-        return playedCard;
-    }
-*/
-/*
-    public void printPlayerCards() {
-        for (Player player : players) {
-            System.out.println(player);
-            System.out.println();
-        }
-    }
-*/
 
     private void setStartCard() {
         playedCard = cardDeck.takeCard(0);
@@ -124,44 +88,46 @@ public class PlayField {
         return false;
     }
 
-    public boolean playerDraw(Player player) {
+    public void playerDraw(Player player) {
         Card drawedCard;
         boolean emptyDeck;
         do {
             emptyDeck = cardDeck.getSize() <= 0;
-            if (emptyDeck) return true;
+            if (emptyDeck) return;
             drawedCard = cardDeck.takeCard(0);
             player.addCard(drawedCard);
         } while (!canBePlayed(drawedCard));
-        return true;
+        playerTurn = nextPlayer();
     }
 
-    public boolean playerPlay(Player player, Card playerPlayedCard) {
+    public void playerPlay(Player player, Card playerPlayedCard) {
         if (canBePlayed(playerPlayedCard)) {
             cardDeck.addCard(playedCard);
             playedCard = playerPlayedCard;
             player.playCard(playerPlayedCard);
             if (playerPlayedCard.getType() == CardType.REVERSE) {
                 clockWise = !clockWise;
+                if (players.size() == 2) {
+                    playerTurn = nextPlayer();
+                }
             } else if (playerPlayedCard.getType() == CardType.SKIP) {
                 playerTurn = nextPlayer();
             } else if (playerPlayedCard.getType() == CardType.DRAW) {
+                playerTurn = nextPlayer();
                 if (playerPlayedCard.getColor() == CardColor.WILD) {
-                    Draw(players.get(nextPlayer()), 2);
+                    Draw(players.get(playerTurn), 4);
                 }
                 else {
-                    Draw(players.get(nextPlayer()), 4);
+                    Draw(players.get(playerTurn), 2);
                 }
-                playerTurn = nextPlayer();
             }
-            return true;
-        } else {
-            return false;
+            playerTurn = nextPlayer();
         }
     }
 
     private int nextPlayer() {
         int playerTurn = this.playerTurn;
+        players.get(playerTurn).setPlayerTurn(false);
         if (clockWise) {
             playerTurn++;
             if (playerTurn >= players.size()) {
@@ -169,10 +135,11 @@ public class PlayField {
             }
         } else {
             playerTurn--;
-            if (playerTurn <= 0) {
+            if (playerTurn < 0) {
                 playerTurn = players.size() - 1;
             }
         }
+        players.get(playerTurn).setPlayerTurn(true);
         return playerTurn;
     }
 
@@ -182,5 +149,14 @@ public class PlayField {
 
     public Card getPlayedCard() {
         return playedCard;
+    }
+
+    public int getWinningPlayer() {
+        for (int i = 0; i < players.size(); i++) {
+            if (players.get(i).getCards().isEmpty()) {
+                return i + 1;
+            }
+        }
+        return 0;
     }
 }

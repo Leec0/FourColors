@@ -2,6 +2,7 @@ package be.fourcolors.mvp.model.game.players;
 
 import be.fourcolors.mvp.model.game.Player;
 import be.fourcolors.mvp.model.game.cards.Card;
+import be.fourcolors.mvp.model.game.cards.CardColor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,9 +38,14 @@ public class AiEasy implements Player {
 
     }
 
-    @Override
-    public int selectWildColor() {
-        return random.nextInt(4) + 1;
+    public CardColor selectWildColor() {
+        return switch (random.nextInt(4)) {
+            case 0 -> CardColor.RED;
+            case 1 -> CardColor.YELLOW;
+            case 2 -> CardColor.BLUE;
+            case 3 -> CardColor.GREEN;
+            default -> null;
+        };
     }
 
     @Override

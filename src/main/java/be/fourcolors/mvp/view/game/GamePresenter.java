@@ -12,7 +12,6 @@ import be.fourcolors.mvp.view.mainMenu.MainMenuView;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
-import javafx.scene.control.ChoiceDialog;
 import javafx.scene.image.Image;
 
 import java.util.Objects;
@@ -34,12 +33,15 @@ public class GamePresenter {
 
     private void addEventHandlers() {
         view.getCardPile().setOnAction(actionEvent -> {
-            model.playerDraw(player);
-            updateView();
+            if (player.isPlayerTurn()) {
+                model.playerDraw(player);
+                updateView();
+            }
         });
     }
 
     private void updateView() {
+        checkForWin();
         setPlayedCard();
         setPlayerCards();
     }
@@ -79,36 +81,12 @@ public class GamePresenter {
         for (Card card : view.getButtonsPlayer().keySet()) {
             Button button = view.getButtonsPlayer().get(card);
             button.setOnAction(actionEvent -> {
-                if (card.getColor() == CardColor.WILD) {
-                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-                    alert.setTitle("Four Colors");
-                    alert.setHeaderText("Kies de kleur van de wild card.");
-                    ButtonType buttonTypeRed = new ButtonType("Rood");
-                    ButtonType buttonTypeGreen = new ButtonType("Groen");
-                    ButtonType buttonTypeBlue = new ButtonType("Blauw");
-                    ButtonType buttonTypeYellow = new ButtonType("Geel");
-                    alert.getButtonTypes().setAll(buttonTypeRed, buttonTypeGreen, buttonTypeBlue, buttonTypeYellow);
-                    alert.showAndWait().ifPresent(buttonType -> {
-                        if (buttonType.equals(buttonTypeRed)) {
-                            model.setWildColor(CardColor.RED);
-                        } else if (buttonType.equals(buttonTypeGreen)) {
-                            model.setWildColor(CardColor.GREEN);
-                        } else if (buttonType.equals(buttonTypeBlue)) {
-                            model.setWildColor(CardColor.BLUE);
-                        } else if (buttonType.equals(buttonTypeYellow)) {
-                            model.setWildColor(CardColor.YELLOW);
-                        }
-                    });
-                }
-                model.playerPlay(player, card);
-                updateView();
-                if (model.gameEnd()) {
-                    Users users = new Users();
-                    users.addWin(user);
-                    MainMenuView mainMenuView = new MainMenuView();
-                    MainMenuPresenter mainMenuPresenter = new MainMenuPresenter(mainMenuView, user);
-                    view.getScene().setRoot(mainMenuView);
-                    mainMenuPresenter.addWindowEventHandlers();
+                if (player.isPlayerTurn()) {
+                    if (card.getColor() == CardColor.WILD) {
+                        setWildColor();
+                    }
+                    model.playerPlay(player, card);
+                    updateView();
                 }
             });
         }
@@ -121,5 +99,43 @@ public class GamePresenter {
             }
         }
         return null;
+    }
+
+    private void setWildColor() {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Four Colors");
+        alert.setHeaderText("Kies de kleur van de wild card.");
+        ButtonType buttonTypeRed = new ButtonType("Rood");
+        ButtonType buttonTypeGreen = new ButtonType("Groen");
+        ButtonType buttonTypeBlue = new ButtonType("Blauw");
+        ButtonType buttonTypeYellow = new ButtonType("Geel");
+        alert.getButtonTypes().setAll(buttonTypeRed, buttonTypeGreen, buttonTypeBlue, buttonTypeYellow);
+        alert.showAndWait().ifPresent(buttonType -> {
+            if (buttonType.equals(buttonTypeRed)) {
+                model.setWildColor(CardColor.RED);
+            } else if (buttonType.equals(buttonTypeGreen)) {
+                model.setWildColor(CardColor.GREEN);
+            } else if (buttonType.equals(buttonTypeBlue)) {
+                model.setWildColor(CardColor.BLUE);
+            } else if (buttonType.equals(buttonTypeYellow)) {
+                model.setWildColor(CardColor.YELLOW);
+            }
+        });
+    }
+
+    private void checkForWin() {
+        if (model.gameEnd()) {
+            Users users = new Users();
+            users.addWin(user);
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Four Colors");
+            alert.setHeaderText("Het spel is gedaan.");
+            alert.setContentText("De winnaar is player: " + model.getWinningPlayer());
+            alert.showAndWait();
+            MainMenuView mainMenuView = new MainMenuView();
+            MainMenuPresenter mainMenuPresenter = new MainMenuPresenter(mainMenuView, user);
+            view.getScene().setRoot(mainMenuView);
+            mainMenuPresenter.addWindowEventHandlers();
+        }
     }
 }

@@ -9,7 +9,6 @@ public interface Player {
     public void playCard(Card card);
     public void addCard(Card card);
     public void uno();
-    public int selectWildColor();
     public boolean isPlayerTurn();
     public void setPlayerTurn(boolean playerTurn);
 }
