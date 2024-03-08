@@ -55,8 +55,7 @@ public class MainMenuView extends GridPane {
         btnSettings.setPrefSize(200, 50);
         btnLogout.setPrefSize(200, 50);
 
-        ivLogo.fitWidthProperty().bind(this.widthProperty().divide(1.5));
-        ivLogo.fitHeightProperty().bind(this.heightProperty().divide(1.5));
+
 
         this.setAlignment(Pos.CENTER);
         this.setPadding(new Insets(30));
