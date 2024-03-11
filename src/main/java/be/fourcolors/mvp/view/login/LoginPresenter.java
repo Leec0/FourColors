@@ -7,6 +7,7 @@ import be.fourcolors.mvp.view.createUser.CreateUserView;
 import be.fourcolors.mvp.view.mainMenu.MainMenuPresenter;
 import be.fourcolors.mvp.view.mainMenu.MainMenuView;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.input.KeyCode;
 
 public class LoginPresenter {
@@ -58,6 +59,20 @@ public class LoginPresenter {
     }
 
     public void addWindowEventHandlers() {
-
+        view.getScene().getWindow().setOnCloseRequest(windowEvent -> {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Four Colors");
+            alert.setHeaderText("Ben je zeker dat je het spel wilt afsluiten.");
+            ButtonType buttonTypeYes = new ButtonType("Yes");
+            ButtonType buttonTypeNo = new ButtonType("No");
+            alert.getButtonTypes().setAll(buttonTypeYes, buttonTypeNo);
+            alert.showAndWait().ifPresent(buttonType -> {
+                if (buttonType == buttonTypeYes) {
+                    view.getScene().getWindow().hide();
+                } else {
+                    windowEvent.consume();
+                }
+            });
+        });
     }
 }

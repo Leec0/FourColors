@@ -98,6 +98,7 @@ public class PlayField {
             player.addCard(drawedCard);
         } while (!canBePlayed(drawedCard));
         playerTurn = nextPlayer();
+        botsPlay();
     }
 
     public void playerPlay(Player player, Card playerPlayedCard) {
@@ -116,12 +117,28 @@ public class PlayField {
                 playerTurn = nextPlayer();
                 if (playerPlayedCard.getColor() == CardColor.WILD) {
                     Draw(players.get(playerTurn), 4);
-                }
-                else {
+                } else {
                     Draw(players.get(playerTurn), 2);
                 }
             }
             playerTurn = nextPlayer();
+            botsPlay();
+        }
+    }
+
+    private void botsPlay() {
+        while (players.get(playerTurn).getClass() != HumanPlayer.class) {
+            Player curentPlayer = players.get(playerTurn);
+            int option = curentPlayer.play();
+            if (option == curentPlayer.getCards().size()) {
+                playerDraw(curentPlayer);
+            } else {
+                Card card = curentPlayer.getCards().get(option);
+                if (card.getColor() == CardColor.WILD) {
+                    wildCardColor = curentPlayer.selectWildColor();
+                }
+                playerPlay(curentPlayer, card);
+            }
         }
     }
 

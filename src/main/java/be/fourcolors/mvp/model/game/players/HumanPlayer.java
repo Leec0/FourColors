@@ -2,6 +2,7 @@ package be.fourcolors.mvp.model.game.players;
 
 import be.fourcolors.mvp.model.game.Player;
 import be.fourcolors.mvp.model.game.cards.Card;
+import be.fourcolors.mvp.model.game.cards.CardColor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,5 +53,15 @@ public class HumanPlayer implements Player {
     @Override
     public void setPlayerTurn(boolean playerTurn) {
         this.playerTurn = playerTurn;
+    }
+
+    @Override
+    public int play() {
+        return 0;
+    }
+
+    @Override
+    public CardColor selectWildColor() {
+        return null;
     }
 }

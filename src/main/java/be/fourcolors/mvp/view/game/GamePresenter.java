@@ -44,6 +44,7 @@ public class GamePresenter {
         checkForWin();
         setPlayedCard();
         setPlayerCards();
+        cardsPlayer2();
     }
 
     public void addWindowEventHandlers() {
@@ -137,5 +138,9 @@ public class GamePresenter {
             view.getScene().setRoot(mainMenuView);
             mainMenuPresenter.addWindowEventHandlers();
         }
+    }
+
+    private void cardsPlayer2() {
+        view.addPlayer2Cards(model.getPlayers().get(1).getCards().size());
     }
 }

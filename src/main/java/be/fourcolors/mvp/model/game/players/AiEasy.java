@@ -38,6 +38,7 @@ public class AiEasy implements Player {
 
     }
 
+    @Override
     public CardColor selectWildColor() {
         return switch (random.nextInt(4)) {
             case 0 -> CardColor.RED;
@@ -56,5 +57,18 @@ public class AiEasy implements Player {
     @Override
     public void setPlayerTurn(boolean playerTurn) {
         this.playerTurn = playerTurn;
+    }
+
+    @Override
+    public int play() {
+        return random.nextInt(cards.size() + 1);
+    }
+
+    public String toString() {
+        StringBuilder stringBuilder = new StringBuilder();
+        for (Card card : cards) {
+            stringBuilder.append(card).append("\n");
+        }
+        return stringBuilder.toString();
     }
 }

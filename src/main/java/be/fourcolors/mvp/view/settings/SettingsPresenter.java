@@ -5,7 +5,10 @@ import be.fourcolors.mvp.model.user.User;
 import be.fourcolors.mvp.model.user.Users;
 import be.fourcolors.mvp.view.mainMenu.MainMenuPresenter;
 import be.fourcolors.mvp.view.mainMenu.MainMenuView;
+import be.fourcolors.mvp.view.rules.RulesPresenter;
+import be.fourcolors.mvp.view.rules.RulesView;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
@@ -27,7 +30,10 @@ public class SettingsPresenter {
 
     private void addEventHandlers() {
         view.getBtnRules().setOnAction(actionEvent -> {
-
+            RulesView rulesView = new RulesView();
+            RulesPresenter rulesPresenter = new RulesPresenter(rulesView, model);
+            view.getScene().setRoot(rulesView);
+            rulesPresenter.addWindowEventHandlers();
         });
         view.getBtnChangeName().setOnAction(actionEvent -> {
             Users users = new Users();
@@ -71,6 +77,20 @@ public class SettingsPresenter {
     }
 
     public void addWindowEventHandlers() {
-
+        view.getScene().getWindow().setOnCloseRequest(windowEvent -> {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Four Colors");
+            alert.setHeaderText("Ben je zeker dat je het spel wilt afsluiten.");
+            ButtonType buttonTypeYes = new ButtonType("Yes");
+            ButtonType buttonTypeNo = new ButtonType("No");
+            alert.getButtonTypes().setAll(buttonTypeYes, buttonTypeNo);
+            alert.showAndWait().ifPresent(buttonType -> {
+                if (buttonType == buttonTypeYes) {
+                    view.getScene().getWindow().hide();
+                } else {
+                    windowEvent.consume();
+                }
+            });
+        });
     }
 }
