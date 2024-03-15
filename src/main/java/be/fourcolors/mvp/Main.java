@@ -3,6 +3,8 @@ package be.fourcolors.mvp;
 import be.fourcolors.mvp.model.user.Users;
 import be.fourcolors.mvp.view.login.LoginPresenter;
 import be.fourcolors.mvp.view.login.LoginView;
+import be.fourcolors.mvp.view.splash.SplashPresenter;
+import be.fourcolors.mvp.view.splash.SplashView;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -13,9 +15,8 @@ import java.util.Objects;
 public class Main extends Application {
     private final static String ICON_PATH = "/images/icon.png";
     public void start(Stage primaryStage){
-        Users model = new Users();
-        LoginView view = new LoginView();
-        LoginPresenter presenter = new LoginPresenter(view, model);
+        SplashView view = new SplashView();
+        SplashPresenter presenter = new SplashPresenter(view);
         primaryStage.setScene(new Scene(view));
 
         primaryStage.setTitle("Four Colors");
@@ -25,8 +26,8 @@ public class Main extends Application {
         primaryStage.setMinWidth(800);
         primaryStage.setHeight(600);
         primaryStage.setWidth(800);
-        presenter.addWindowEventHandlers();
         primaryStage.show();
+        presenter.addWindowEventHandlers();
     }
 
     public static void main(String[] args) {
