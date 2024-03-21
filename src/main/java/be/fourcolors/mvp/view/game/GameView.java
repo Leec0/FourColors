@@ -1,10 +1,10 @@
 package be.fourcolors.mvp.view.game;
 
 import be.fourcolors.mvp.model.game.cards.Card;
+import javafx.animation.TranslateTransition;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
@@ -38,7 +38,7 @@ public class GameView extends BorderPane {
 
         centerBox = new HBox();
         cardPile = new Button();
-        oneCardButton = new Button("UNO");
+        oneCardButton = new Button();
         playedCard = new ImageView();
     }
 
@@ -50,12 +50,19 @@ public class GameView extends BorderPane {
         centerBox.getChildren().add(oneCardButton);
 
         playedCard.setPreserveRatio(true);
-        playedCard.setFitWidth(200);
+        playedCard.setFitWidth(150);
         Image deckImage = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/cards/normal/deck.png")));
         ImageView deckView = new ImageView(deckImage);
         deckView.setPreserveRatio(true);
-        deckView.setFitWidth(200);
+        deckView.setFitWidth(150);
         cardPile.setGraphic(deckView);
+        cardPile.setStyle("-fx-background-color: none");
+        Image oneCardImage = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/icon.png")));
+        ImageView oneCardView = new ImageView(oneCardImage);
+        oneCardView.setPreserveRatio(true);
+        oneCardView.setFitWidth(80);
+        oneCardButton.setGraphic(oneCardView);
+        oneCardButton.setStyle("-fx-background-color: none");
 
         cardsPlayer1.setAlignment(Pos.CENTER);
         setMargin(cardsPlayer1, new Insets(20));
@@ -79,6 +86,7 @@ public class GameView extends BorderPane {
             imageView.setPreserveRatio(true);
             imageView.setFitWidth(75);
             button.setGraphic(imageView);
+            button.setStyle("-fx-background-color: none");
             buttonsPlayer.put(card, button);
             cardsPlayer1.getChildren().add(buttonsPlayer.get(card));
         }
@@ -116,4 +124,5 @@ public class GameView extends BorderPane {
     public Map<Card, Button> getButtonsPlayer() {
         return buttonsPlayer;
     }
+
 }

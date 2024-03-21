@@ -9,10 +9,14 @@ import be.fourcolors.mvp.model.user.User;
 import be.fourcolors.mvp.model.user.Users;
 import be.fourcolors.mvp.view.mainMenu.MainMenuPresenter;
 import be.fourcolors.mvp.view.mainMenu.MainMenuView;
+import javafx.animation.ParallelTransition;
+import javafx.animation.ScaleTransition;
+import javafx.animation.TranslateTransition;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.image.Image;
+import javafx.util.Duration;
 
 import java.util.Objects;
 
@@ -110,7 +114,33 @@ public class GamePresenter {
                     updateView();
                 }
             });
+            animatePlayerButton(button);
         }
+    }
+
+    private void animatePlayerButton(Button button) {
+        button.setOnMouseEntered(mouseEvent -> {
+            TranslateTransition translateTransition = new TranslateTransition(Duration.millis(300), button);
+            translateTransition.setToY(-20);
+
+            ScaleTransition scaleTransition = new ScaleTransition(Duration.millis(500), button);
+            scaleTransition.setToX(1.05);
+            scaleTransition.setToY(1.05);
+
+            ParallelTransition parallelTransition = new ParallelTransition(translateTransition, scaleTransition);
+            parallelTransition.play();
+        });
+        button.setOnMouseExited(mouseEvent -> {
+            TranslateTransition translateTransition = new TranslateTransition(Duration.millis(300), button);
+            translateTransition.setToY(0);
+
+            ScaleTransition scaleTransition = new ScaleTransition(Duration.millis(500), button);
+            scaleTransition.setToX(1);
+            scaleTransition.setToY(1);
+
+            ParallelTransition parallelTransition = new ParallelTransition(translateTransition, scaleTransition);
+            parallelTransition.play();
+        });
     }
 
     private HumanPlayer setPlayer() {
@@ -142,6 +172,7 @@ public class GamePresenter {
                 model.setWildColor(CardColor.YELLOW);
             }
         });
+
     }
 
     private void checkForWin() {
