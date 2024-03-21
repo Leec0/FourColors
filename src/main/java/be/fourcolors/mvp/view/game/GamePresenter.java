@@ -1,7 +1,7 @@
 package be.fourcolors.mvp.view.game;
 
 import be.fourcolors.mvp.model.game.PlayField;
-import be.fourcolors.mvp.model.game.Player;
+import be.fourcolors.mvp.model.game.players.interfaces.Player;
 import be.fourcolors.mvp.model.game.cards.Card;
 import be.fourcolors.mvp.model.game.cards.CardColor;
 import be.fourcolors.mvp.model.game.players.HumanPlayer;
@@ -20,7 +20,7 @@ public class GamePresenter {
     private final GameView view;
     private final PlayField model;
     private final User user;
-    private final Player player;
+    private final HumanPlayer player;
 
     public GamePresenter(GameView view, PlayField model, User user) {
         this.view = view;
@@ -37,6 +37,15 @@ public class GamePresenter {
                 model.playerDraw(player);
                 updateView();
             }
+        });
+        view.getOneCardButton().setOnAction(actionEvent -> {
+            if (player.canCall()) {
+                player.oneCard();
+            }
+            if (model.playerWithOneCard()) {
+                model.callOutPlayers();
+            }
+            updateView();
         });
     }
 
@@ -67,7 +76,12 @@ public class GamePresenter {
 
     private void setPlayedCard() {
         Card playedCard = model.getPlayedCard();
-        String playedCardFile = "/images/cards/normal/" + playedCard.getFileName() + ".png";
+        String playedCardFile;
+        if (playedCard.getColor() == CardColor.WILD) {
+
+        } else {
+            playedCardFile = "/images/cards/normal/" + playedCard.getFileName() + ".png";
+        }
         Image image = new Image(Objects.requireNonNull(getClass().getResourceAsStream(playedCardFile)));
         view.getPlayedCard().setImage(image);
     }
@@ -93,10 +107,10 @@ public class GamePresenter {
         }
     }
 
-    private Player setPlayer() {
+    private HumanPlayer setPlayer() {
         for (Player player : model.getPlayers()) {
             if (player.getClass().equals(HumanPlayer.class)) {
-                return player;
+                return (HumanPlayer) player;
             }
         }
         return null;

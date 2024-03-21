@@ -1,7 +1,6 @@
-package be.fourcolors.mvp.model.game;
+package be.fourcolors.mvp.model.game.players.interfaces;
 
 import be.fourcolors.mvp.model.game.cards.Card;
-import be.fourcolors.mvp.model.game.cards.CardColor;
 
 import java.util.List;
 
@@ -9,9 +8,10 @@ public interface Player {
     List<Card> getCards();
     void playCard(Card card);
     void addCard(Card card);
-    void uno();
+    void oneCard();
     boolean isPlayerTurn();
     void setPlayerTurn(boolean playerTurn);
-    int play();
-    CardColor selectWildColor();
+    void resetOneCard();
+    boolean hasOneCard();
+    boolean isCalledOneCard();
 }

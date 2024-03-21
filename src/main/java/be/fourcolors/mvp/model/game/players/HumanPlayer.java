@@ -1,16 +1,15 @@
 package be.fourcolors.mvp.model.game.players;
 
-import be.fourcolors.mvp.model.game.Player;
 import be.fourcolors.mvp.model.game.cards.Card;
-import be.fourcolors.mvp.model.game.cards.CardColor;
+import be.fourcolors.mvp.model.game.players.interfaces.Player;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 public class HumanPlayer implements Player {
     private final List<Card> cards;
     private boolean playerTurn;
+    private boolean calledOneCard;
 
     public HumanPlayer() {
         cards = new ArrayList<>();
@@ -32,11 +31,6 @@ public class HumanPlayer implements Player {
         cards.sort(Card::compareTo);
     }
 
-    @Override
-    public void uno() {
-
-    }
-
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
         for (Card card : cards) {
@@ -56,12 +50,26 @@ public class HumanPlayer implements Player {
     }
 
     @Override
-    public int play() {
-        return 0;
+    public void oneCard() {
+        if (hasOneCard()) calledOneCard = true;
     }
 
     @Override
-    public CardColor selectWildColor() {
-        return null;
+    public void resetOneCard() {
+        calledOneCard = false;
+    }
+
+    @Override
+    public boolean hasOneCard() {
+        return cards.size() == 1;
+    }
+
+    @Override
+    public boolean isCalledOneCard() {
+        return calledOneCard;
+    }
+
+    public boolean canCall() {
+        return cards.size() <= 2;
     }
 }
