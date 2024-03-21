@@ -182,4 +182,8 @@ public class PlayField {
             }
         }
     }
+
+    public CardColor getWildCardColor() {
+        return wildCardColor;
+    }
 }

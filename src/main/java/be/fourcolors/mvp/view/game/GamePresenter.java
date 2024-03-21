@@ -78,7 +78,13 @@ public class GamePresenter {
         Card playedCard = model.getPlayedCard();
         String playedCardFile;
         if (playedCard.getColor() == CardColor.WILD) {
-
+            playedCardFile = switch (model.getWildCardColor()) {
+                case RED -> "/images/cards/normal/Wild_Wild_Red.png";
+                case BLUE -> "/images/cards/normal/Wild_Wild_Blue.png";
+                case GREEN -> "/images/cards/normal/Wild_Wild_Green.png";
+                case YELLOW -> "/images/cards/normal/Wild_Wild_Yellow.png";
+                default -> "/images/cards/normal/Wild_Wild.png";
+            };
         } else {
             playedCardFile = "/images/cards/normal/" + playedCard.getFileName() + ".png";
         }
