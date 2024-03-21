@@ -14,7 +14,7 @@ public class SplashPresenter {
     }
 
     public void addWindowEventHandlers() {
-        PauseTransition transition = new PauseTransition(Duration.seconds(3));
+        PauseTransition transition = new PauseTransition(Duration.seconds(4));
         transition.setOnFinished(actionEvent -> {
             Users model = new Users();
             LoginView loginView = new LoginView();
