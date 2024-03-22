@@ -52,7 +52,7 @@ public class MainMenuPresenter {
             AtomicReference<String> botType = new AtomicReference<>();
             Alert alertType = new Alert(Alert.AlertType.CONFIRMATION);
             alertType.setTitle("Four Colors");
-            alertType.setHeaderText("Kies het aantal spelers");
+            alertType.setHeaderText("Kies de moeilijkheidsgraad");
             ButtonType easy = new ButtonType("Makkelijk");
             ButtonType medium = new ButtonType("Gemiddeld");
             ButtonType hard = new ButtonType("Moeilijk");
