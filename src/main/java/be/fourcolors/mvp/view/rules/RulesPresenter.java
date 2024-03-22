@@ -1,6 +1,10 @@
 package be.fourcolors.mvp.view.rules;
 
 import be.fourcolors.mvp.model.user.User;
+import be.fourcolors.mvp.view.mainMenu.MainMenuPresenter;
+import be.fourcolors.mvp.view.mainMenu.MainMenuView;
+import be.fourcolors.mvp.view.settings.SettingsPresenter;
+import be.fourcolors.mvp.view.settings.SettingsView;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 
@@ -16,7 +20,12 @@ public class RulesPresenter {
     }
 
     private void addEventHandlers() {
-
+        view.getBtnReturn().setOnAction(actionEvent -> {
+            SettingsView settingsView = new SettingsView();
+            SettingsPresenter settingsPresenter = new SettingsPresenter(settingsView, model);
+            view.getScene().setRoot(settingsView);
+            settingsPresenter.addWindowEventHandlers();
+        });
     }
 
     private void updateView() {
