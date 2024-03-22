@@ -18,6 +18,8 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.util.Duration;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class GamePresenter {
@@ -220,6 +222,12 @@ public class GamePresenter {
     }
 
     private void cardsPlayer2() {
-        view.addPlayer2Cards(model.getPlayers().get(1).getCards().size());
+        ArrayList<Integer> amount = new ArrayList<>();
+        for (Player playerInfo : model.getPlayers()) {
+            if (playerInfo != player) {
+                amount.add(playerInfo.getCards().size());
+            }
+        }
+        view.addPlayer2Cards(model.getPlayers().size() - 1, amount);
     }
 }

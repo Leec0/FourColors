@@ -4,11 +4,13 @@ import be.fourcolors.mvp.model.game.cards.Card;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 
 import java.util.*;
 
@@ -17,8 +19,8 @@ public class GameView extends BorderPane {
     private HBox cardsPlayer1;
     private ScrollPane scrollPane;
     private Map<Card, Button> buttonsPlayer;
-    private HBox cardsPlayer2;
-    private List<ImageView> ivCardsPlayer2;
+    private HBox cardsOtherPlayers;
+    private List<VBox> infoPlayers;
     private HBox centerBox;
     private Button cardPile;
     private Button oneCardButton;
@@ -35,8 +37,8 @@ public class GameView extends BorderPane {
         buttonsPlayer = new HashMap<>();
         scrollPane = new ScrollPane(cardsPlayer1);
 
-        cardsPlayer2 = new HBox();
-        ivCardsPlayer2 = new ArrayList<>();
+        cardsOtherPlayers = new HBox();
+        infoPlayers = new ArrayList<>();
 
         centerBox = new HBox();
         cardPile = new Button();
@@ -71,11 +73,11 @@ public class GameView extends BorderPane {
         scrollPane.setStyle("-fx-background-color: none");
         setMargin(scrollPane, new Insets(0, 20, 10, 20));
 
-        cardsPlayer2.setAlignment(Pos.CENTER);
-        setMargin(cardsPlayer2, new Insets(10, 20, 10, 0));
+        cardsOtherPlayers.setAlignment(Pos.CENTER);
+        setMargin(cardsOtherPlayers, new Insets(10, 20, 10, 0));
 
         setBottom(scrollPane);
-        setTop(cardsPlayer2);
+        setTop(cardsOtherPlayers);
         setCenter(centerBox);
     }
 
@@ -96,17 +98,31 @@ public class GameView extends BorderPane {
         }
     }
 
-    public void addPlayer2Cards(int amount) {
-        cardsPlayer2.getChildren().clear();
-        ivCardsPlayer2.clear();
-        for (int i = 0; i < amount; i++) {
-            Image image = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/cards/normal/deck.png")));
-            ImageView imageView = new ImageView(image);
-            imageView.setPreserveRatio(true);
-            imageView.setFitWidth(75);
-            ivCardsPlayer2.add(imageView);
+    public void addPlayer2Cards(int numberOfPlayers, ArrayList<Integer> amount) {
+        if (numberOfPlayers == amount.size()) {
+            cardsOtherPlayers.getChildren().clear();
+            infoPlayers.clear();
+            for (int i = 0; i < numberOfPlayers; i++) {
+                HBox hBox = new HBox();
+                Image image = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/cards/normal/deck.png")));
+                ImageView imageView = new ImageView(image);
+                imageView.setPreserveRatio(true);
+                imageView.setFitWidth(75);
+                Label label = new Label("X " + amount.get(i));
+                label.setAlignment(Pos.CENTER);
+                hBox.getChildren().addAll(imageView, label);
+                hBox.setAlignment(Pos.CENTER);
+                HBox.setMargin(imageView, new Insets(10));
+                VBox vBox = new VBox();
+                Label infoPlayer = new Label("Player: " + (i + 2));
+                infoPlayer.setAlignment(Pos.CENTER);
+                vBox.getChildren().addAll(infoPlayer, hBox);
+                vBox.setAlignment(Pos.CENTER);
+                infoPlayers.add(vBox);
+            }
         }
-        cardsPlayer2.getChildren().addAll(ivCardsPlayer2);
+        cardsOtherPlayers.getChildren().addAll(infoPlayers);
+        cardsOtherPlayers.setSpacing(50);
     }
 
     public Button getCardPile() {
