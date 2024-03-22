@@ -4,6 +4,7 @@ import be.fourcolors.mvp.model.user.Users;
 import be.fourcolors.mvp.view.login.LoginPresenter;
 import be.fourcolors.mvp.view.login.LoginView;
 import javafx.animation.PauseTransition;
+import javafx.event.Event;
 import javafx.util.Duration;
 
 public class SplashPresenter {
@@ -14,6 +15,7 @@ public class SplashPresenter {
     }
 
     public void addWindowEventHandlers() {
+        view.getScene().getWindow().setOnCloseRequest(Event::consume);
         PauseTransition transition = new PauseTransition(Duration.seconds(4));
         transition.setOnFinished(actionEvent -> {
             Users model = new Users();

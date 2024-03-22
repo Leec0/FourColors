@@ -12,10 +12,14 @@ public class CardChecker {
     }
     public boolean canBePlayed(Card card, Card playedCard, CardColor wildCardColor) {
         if (requiredToPlayDraw) {
+            if (playedCard.getColor() == CardColor.WILD) return card.getColor() == wildCardColor;
             return card.getType() == CardType.DRAW;
         }
         boolean result;
         result = card.getColor() == CardColor.WILD;
+        if (playedCard.getColor() == CardColor.WILD && playedCard.getType() == CardType.DRAW) {
+            return card.getColor() == wildCardColor;
+        }
         if (!result) {
             result = card.getColor() == playedCard.getColor();
             if (!result) {

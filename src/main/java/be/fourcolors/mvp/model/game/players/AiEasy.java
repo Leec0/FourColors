@@ -17,10 +17,10 @@ public class AiEasy implements BotBase {
     private final CardChecker cardChecker;
     private boolean calledOneCard;
 
-    public AiEasy() {
+    public AiEasy(CardChecker cardChecker) {
         cards = new ArrayList<>();
         random = new Random();
-        cardChecker = new CardChecker();
+        this.cardChecker = cardChecker;
     }
 
     @Override

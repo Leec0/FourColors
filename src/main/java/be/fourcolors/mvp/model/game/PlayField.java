@@ -33,7 +33,7 @@ public class PlayField {
         int playerAmount = 2;
         players.add(new HumanPlayer());
         for (int i = 0; i < playerAmount - 1; i++) {
-            players.add(new AiEasy());
+            players.add(new AiEasy(cardChecker));
         }
         givePlayerCards();
         players.get(0).setPlayerTurn(true);
@@ -57,9 +57,17 @@ public class PlayField {
 
     private void draw(Player player, int amount) {
         Card givenCard;
-        for (int i = 0; i < amount + 1; i++) {
+        for (int i = 0; i < amount; i++) {
             givenCard = cardDeck.takeCard(0);
             player.addCard(givenCard);
+        }
+    }
+
+    private void resetOneCard() {
+        for (Player player : players) {
+            if (!player.hasOneCard()) {
+                player.resetOneCard();
+            }
         }
     }
 
@@ -77,29 +85,29 @@ public class PlayField {
     }
 
     public void playerDraw(Player player) {
-        player.resetOneCard();
-        if (!cardChecker.isRequiredToPlayDraw()) {
-            Card drawedCard;
-            boolean emptyDeck;
-            do {
-                emptyDeck = cardDeck.getSize() <= 0;
-                if (emptyDeck) return;
-                drawedCard = cardDeck.takeCard(0);
-                player.addCard(drawedCard);
-            } while (!cardChecker.canBePlayed(drawedCard, playedCard, wildCardColor));
-        } else {
-            draw(player, currentDrawAmount);
-            currentDrawAmount = 0;
-            cardChecker.setRequiredToPlayDraw(false);
+        if (!gameEnd()) {
+            if (!cardChecker.isRequiredToPlayDraw()) {
+                Card drawedCard;
+                boolean emptyDeck;
+                do {
+                    emptyDeck = cardDeck.getSize() <= 0;
+                    if (emptyDeck) return;
+                    drawedCard = cardDeck.takeCard(0);
+                    player.addCard(drawedCard);
+                } while (!cardChecker.canBePlayed(drawedCard, playedCard, wildCardColor));
+            } else {
+                draw(player, currentDrawAmount);
+                currentDrawAmount = 0;
+                cardChecker.setRequiredToPlayDraw(false);
+            }
+            playerTurn = nextPlayer();
+            resetOneCard();
         }
-        playerTurn = nextPlayer();
-        botsPlay();
     }
 
     public void playerPlay(Player player, Card playerPlayedCard) {
         if (!gameEnd()) {
             if (cardChecker.canBePlayed(playerPlayedCard, playedCard, wildCardColor)) {
-                player.resetOneCard();
                 cardDeck.addCard(playedCard);
                 playedCard = playerPlayedCard;
                 player.playCard(playerPlayedCard);
@@ -126,7 +134,7 @@ public class PlayField {
                     }
                 }
                 playerTurn = nextPlayer();
-                botsPlay();
+                resetOneCard();
             }
         }
     }
@@ -138,7 +146,7 @@ public class PlayField {
         return false;
     }
 
-    private void botsPlay() {
+    public void botsPlay() {
         if (players.get(playerTurn) instanceof BotBase player) {
             if (playerWithOneCard()) {
                 if (player.callOutPlayers()) callOutPlayers();
@@ -207,5 +215,9 @@ public class PlayField {
 
     public CardColor getWildCardColor() {
         return wildCardColor;
+    }
+
+    public int getPlayerTurn() {
+        return playerTurn;
     }
 }

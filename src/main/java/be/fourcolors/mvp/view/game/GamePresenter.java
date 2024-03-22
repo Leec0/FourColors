@@ -1,6 +1,7 @@
 package be.fourcolors.mvp.view.game;
 
 import be.fourcolors.mvp.model.game.PlayField;
+import be.fourcolors.mvp.model.game.players.interfaces.BotBase;
 import be.fourcolors.mvp.model.game.players.interfaces.Player;
 import be.fourcolors.mvp.model.game.cards.Card;
 import be.fourcolors.mvp.model.game.cards.CardColor;
@@ -9,9 +10,7 @@ import be.fourcolors.mvp.model.user.User;
 import be.fourcolors.mvp.model.user.Users;
 import be.fourcolors.mvp.view.mainMenu.MainMenuPresenter;
 import be.fourcolors.mvp.view.mainMenu.MainMenuView;
-import javafx.animation.ParallelTransition;
-import javafx.animation.ScaleTransition;
-import javafx.animation.TranslateTransition;
+import javafx.animation.*;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
@@ -26,6 +25,7 @@ public class GamePresenter {
     private final PlayField model;
     private final User user;
     private final HumanPlayer player;
+    private final PauseTransition pauseTransition = new PauseTransition(Duration.millis(250));
 
     public GamePresenter(GameView view, PlayField model, User user) {
         this.view = view;
@@ -39,28 +39,32 @@ public class GamePresenter {
     }
 
     private void addEventHandlers() {
-        view.getCardPile().setOnAction(actionEvent -> {
-            if (player.isPlayerTurn()) {
-                model.playerDraw(player);
+        if (!model.gameEnd()) {
+            view.getCardPile().setOnAction(actionEvent -> {
+                if (player.isPlayerTurn()) {
+                    model.playerDraw(player);
+                    updateView();
+                    playBots();
+                    checkForWin();
+                }
+            });
+            view.getOneCardButton().setOnAction(actionEvent -> {
+                if (player.canCall()) {
+                    player.oneCard();
+                }
+                if (model.playerWithOneCard()) {
+                    model.callOutPlayers();
+                }
                 updateView();
-            }
-        });
-        view.getOneCardButton().setOnAction(actionEvent -> {
-            if (player.canCall()) {
-                player.oneCard();
-            }
-            if (model.playerWithOneCard()) {
-                model.callOutPlayers();
-            }
-            updateView();
-        });
+            });
+        }
     }
 
     private void updateView() {
-        checkForWin();
         setPlayedCard();
         setPlayerCards();
         cardsPlayer2();
+        checkForWin();
     }
 
     public void addWindowEventHandlers() {
@@ -79,6 +83,19 @@ public class GamePresenter {
                 }
             });
         });
+    }
+
+    private void playBots() {
+        pauseTransition.setOnFinished(actionEvent1 -> {
+            if (model.getPlayers().get(model.getPlayerTurn()) instanceof BotBase) {
+                model.botsPlay();
+                updateView();
+                if (model.getPlayers().get(model.getPlayerTurn()) instanceof BotBase) {
+                    pauseTransition.play();
+                }
+            }
+        });
+        pauseTransition.play();
     }
 
     private void setPlayedCard() {
@@ -108,15 +125,16 @@ public class GamePresenter {
     private void addPlayerCardsEvent() {
         for (Card card : view.getButtonsPlayer().keySet()) {
             Button button = view.getButtonsPlayer().get(card);
-            button.setOnAction(actionEvent -> {
-                if (player.isPlayerTurn()) {
+            if (player.isPlayerTurn() && !model.gameEnd()) {
+                button.setOnAction(actionEvent -> {
                     if (card.getColor() == CardColor.WILD) {
                         setWildColor();
                     }
                     model.playerPlay(player, card);
                     updateView();
-                }
-            });
+                    playBots();
+                });
+            }
             animatePlayerButton(button);
         }
     }
@@ -175,22 +193,27 @@ public class GamePresenter {
                 model.setWildColor(CardColor.YELLOW);
             }
         });
-
     }
 
     private void checkForWin() {
         if (model.gameEnd()) {
+            boolean menu = true;
             Users users = new Users();
             users.addWin(user);
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Four Colors");
             alert.setHeaderText("Het spel is gedaan.");
             alert.setContentText("De winnaar is player: " + model.getWinningPlayer());
-            alert.showAndWait();
-            MainMenuView mainMenuView = new MainMenuView();
-            MainMenuPresenter mainMenuPresenter = new MainMenuPresenter(mainMenuView, user);
-            view.getScene().setRoot(mainMenuView);
-            mainMenuPresenter.addWindowEventHandlers();
+            alert.setOnHidden(event -> {
+                MainMenuView mainMenuView = new MainMenuView();
+                MainMenuPresenter mainMenuPresenter = new MainMenuPresenter(mainMenuView, user);
+                view.getScene().setRoot(mainMenuView);
+                mainMenuPresenter.addWindowEventHandlers();
+            });
+            while (menu) {
+                alert.show();
+                menu = false;
+            }
         }
     }
 

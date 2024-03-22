@@ -67,6 +67,7 @@ public class GameView extends BorderPane {
         oneCardButton.setStyle("-fx-background-color: none");
 
         cardsPlayer1.setAlignment(Pos.CENTER);
+        scrollPane.setFitToWidth(true);
         scrollPane.setStyle("-fx-background-color: none");
         setMargin(scrollPane, new Insets(0, 20, 10, 20));
 
