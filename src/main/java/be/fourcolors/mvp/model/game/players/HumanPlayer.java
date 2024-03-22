@@ -51,7 +51,7 @@ public class HumanPlayer implements Player {
 
     @Override
     public void oneCard() {
-        if (hasOneCard()) calledOneCard = true;
+        if (canCall()) calledOneCard = true;
     }
 
     @Override
@@ -69,6 +69,7 @@ public class HumanPlayer implements Player {
         return calledOneCard;
     }
 
+    @Override
     public boolean canCall() {
         return cards.size() <= 2;
     }

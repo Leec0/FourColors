@@ -14,4 +14,5 @@ public interface Player {
     void resetOneCard();
     boolean hasOneCard();
     boolean isCalledOneCard();
+    boolean canCall();
 }

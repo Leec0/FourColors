@@ -116,4 +116,9 @@ public class AiEasy implements BotBase {
     public boolean isCalledOneCard() {
         return calledOneCard;
     }
+
+    @Override
+    public boolean canCall() {
+        return cards.size() <= 2;
+    }
 }

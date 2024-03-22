@@ -65,8 +65,10 @@ public class PlayField {
 
     private void resetOneCard() {
         for (Player player : players) {
-            if (!player.hasOneCard()) {
-                player.resetOneCard();
+            if (!player.isCalledOneCard()) {
+                if (!player.hasOneCard()) {
+                    player.resetOneCard();
+                }
             }
         }
     }

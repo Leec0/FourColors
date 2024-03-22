@@ -26,12 +26,16 @@ public class GamePresenter {
     private final User user;
     private final HumanPlayer player;
     private final PauseTransition pauseTransition = new PauseTransition(Duration.millis(250));
+    private final Alert alert = new Alert(Alert.AlertType.INFORMATION);
+    private boolean alterShown;
+
 
     public GamePresenter(GameView view, PlayField model, User user) {
         this.view = view;
         this.model = model;
         this.user = user;
         this.player = setPlayer();
+        alterShown = false;
         Image backgroundImage = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/backgrounds/" + user.getFavoriteColor().getBackgroundFile())));
         view.setBackground(new Background(new BackgroundImage(backgroundImage, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, new BackgroundSize(BackgroundSize.AUTO, BackgroundSize.AUTO, false, false, true, true))));
         addEventHandlers();
@@ -197,10 +201,8 @@ public class GamePresenter {
 
     private void checkForWin() {
         if (model.gameEnd()) {
-            boolean menu = true;
             Users users = new Users();
             users.addWin(user);
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Four Colors");
             alert.setHeaderText("Het spel is gedaan.");
             alert.setContentText("De winnaar is player: " + model.getWinningPlayer());
@@ -210,9 +212,9 @@ public class GamePresenter {
                 view.getScene().setRoot(mainMenuView);
                 mainMenuPresenter.addWindowEventHandlers();
             });
-            while (menu) {
+            if (!alert.isShowing() && !alterShown) {
+                alterShown = true;
                 alert.show();
-                menu = false;
             }
         }
     }
