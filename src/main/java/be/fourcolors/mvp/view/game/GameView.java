@@ -1,10 +1,10 @@
 package be.fourcolors.mvp.view.game;
 
 import be.fourcolors.mvp.model.game.cards.Card;
-import javafx.animation.TranslateTransition;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
@@ -15,6 +15,7 @@ import java.util.*;
 public class GameView extends BorderPane {
 
     private HBox cardsPlayer1;
+    private ScrollPane scrollPane;
     private Map<Card, Button> buttonsPlayer;
     private HBox cardsPlayer2;
     private List<ImageView> ivCardsPlayer2;
@@ -32,6 +33,7 @@ public class GameView extends BorderPane {
     private void initializeNodes() {
         cardsPlayer1 = new HBox();
         buttonsPlayer = new HashMap<>();
+        scrollPane = new ScrollPane(cardsPlayer1);
 
         cardsPlayer2 = new HBox();
         ivCardsPlayer2 = new ArrayList<>();
@@ -65,12 +67,13 @@ public class GameView extends BorderPane {
         oneCardButton.setStyle("-fx-background-color: none");
 
         cardsPlayer1.setAlignment(Pos.CENTER);
-        setMargin(cardsPlayer1, new Insets(20));
+        scrollPane.setStyle("-fx-background-color: none");
+        setMargin(scrollPane, new Insets(0, 20, 10, 20));
 
         cardsPlayer2.setAlignment(Pos.CENTER);
-        setMargin(cardsPlayer2, new Insets(20));
+        setMargin(cardsPlayer2, new Insets(10, 20, 10, 0));
 
-        setBottom(cardsPlayer1);
+        setBottom(scrollPane);
         setTop(cardsPlayer2);
         setCenter(centerBox);
     }
@@ -103,10 +106,6 @@ public class GameView extends BorderPane {
             ivCardsPlayer2.add(imageView);
         }
         cardsPlayer2.getChildren().addAll(ivCardsPlayer2);
-    }
-
-    public List<ImageView> getIvCardsPlayer2() {
-        return ivCardsPlayer2;
     }
 
     public Button getCardPile() {

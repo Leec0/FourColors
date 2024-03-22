@@ -22,11 +22,13 @@ public class PlayField {
     private boolean clockWise;
     private int playerTurn;
     private final CardChecker cardChecker;
+    private int currentDrawAmount;
 
     public PlayField() {
         cardDeck = new CardDeck();
         players = new ArrayList<>();
         cardChecker = new CardChecker();
+        currentDrawAmount = 0;
         setStartCard();
         int playerAmount = 2;
         players.add(new HumanPlayer());
@@ -76,22 +78,28 @@ public class PlayField {
 
     public void playerDraw(Player player) {
         player.resetOneCard();
-        Card drawedCard;
-        boolean emptyDeck;
-        do {
-            emptyDeck = cardDeck.getSize() <= 0;
-            if (emptyDeck) return;
-            drawedCard = cardDeck.takeCard(0);
-            player.addCard(drawedCard);
-        } while (!cardChecker.canBePlayed(drawedCard, playedCard, wildCardColor));
+        if (!cardChecker.isRequiredToPlayDraw()) {
+            Card drawedCard;
+            boolean emptyDeck;
+            do {
+                emptyDeck = cardDeck.getSize() <= 0;
+                if (emptyDeck) return;
+                drawedCard = cardDeck.takeCard(0);
+                player.addCard(drawedCard);
+            } while (!cardChecker.canBePlayed(drawedCard, playedCard, wildCardColor));
+        } else {
+            draw(player, currentDrawAmount);
+            currentDrawAmount = 0;
+            cardChecker.setRequiredToPlayDraw(false);
+        }
         playerTurn = nextPlayer();
         botsPlay();
     }
 
     public void playerPlay(Player player, Card playerPlayedCard) {
         if (!gameEnd()) {
-            player.resetOneCard();
             if (cardChecker.canBePlayed(playerPlayedCard, playedCard, wildCardColor)) {
+                player.resetOneCard();
                 cardDeck.addCard(playedCard);
                 playedCard = playerPlayedCard;
                 player.playCard(playerPlayedCard);
@@ -103,17 +111,31 @@ public class PlayField {
                 } else if (playerPlayedCard.getType() == CardType.SKIP) {
                     playerTurn = nextPlayer();
                 } else if (playerPlayedCard.getType() == CardType.DRAW) {
-                    playerTurn = nextPlayer();
                     if (playerPlayedCard.getColor() == CardColor.WILD) {
-                        draw(players.get(playerTurn), 4);
+                        currentDrawAmount += 4;
                     } else {
-                        draw(players.get(playerTurn), 2);
+                        currentDrawAmount += 2;
+                    }
+                    if (playerHasCardOfTypeDraw(players.get(nextPlayer()))) {
+                        cardChecker.setRequiredToPlayDraw(true);
+                    } else {
+                        cardChecker.setRequiredToPlayDraw(false);
+                        playerTurn = nextPlayer();
+                        draw(players.get(playerTurn), currentDrawAmount);
+                        currentDrawAmount = 0;
                     }
                 }
                 playerTurn = nextPlayer();
                 botsPlay();
             }
         }
+    }
+
+    private boolean playerHasCardOfTypeDraw(Player player) {
+        for (Card card : player.getCards()) {
+            if (card.getType() == CardType.DRAW) return true;
+        }
+        return false;
     }
 
     private void botsPlay() {

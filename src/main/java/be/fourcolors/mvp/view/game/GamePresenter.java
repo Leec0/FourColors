@@ -16,6 +16,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.image.Image;
+import javafx.scene.layout.*;
 import javafx.util.Duration;
 
 import java.util.Objects;
@@ -31,6 +32,8 @@ public class GamePresenter {
         this.model = model;
         this.user = user;
         this.player = setPlayer();
+        Image backgroundImage = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/backgrounds/" + user.getFavoriteColor().getBackgroundFile())));
+        view.setBackground(new Background(new BackgroundImage(backgroundImage, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, new BackgroundSize(BackgroundSize.AUTO, BackgroundSize.AUTO, false, false, true, true))));
         addEventHandlers();
         updateView();
     }
