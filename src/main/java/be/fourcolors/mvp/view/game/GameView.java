@@ -8,9 +8,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 
 import java.util.*;
 
@@ -68,10 +67,12 @@ public class GameView extends BorderPane {
         oneCardButton.setGraphic(oneCardView);
         oneCardButton.setStyle("-fx-background-color: none");
 
-        cardsPlayer1.setAlignment(Pos.CENTER);
+        cardsPlayer1.setAlignment(Pos.BOTTOM_CENTER);
+        cardsPlayer1.setStyle("-fx-padding: 20 5 5 5");
         scrollPane.setFitToWidth(true);
-        scrollPane.setStyle("-fx-background-color: none");
-        setMargin(scrollPane, new Insets(0, 20, 10, 20));
+        scrollPane.setBackground(new Background(new BackgroundFill(Color.TRANSPARENT, CornerRadii.EMPTY, Insets.EMPTY)));
+        scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+        scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
 
         cardsOtherPlayers.setAlignment(Pos.CENTER);
         setMargin(cardsOtherPlayers, new Insets(10, 20, 10, 0));
