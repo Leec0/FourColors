@@ -6,9 +6,12 @@ import be.fourcolors.mvp.view.createUser.CreateUserPresenter;
 import be.fourcolors.mvp.view.createUser.CreateUserView;
 import be.fourcolors.mvp.view.mainMenu.MainMenuPresenter;
 import be.fourcolors.mvp.view.mainMenu.MainMenuView;
+import javafx.animation.FadeTransition;
+import javafx.scene.Group;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.input.KeyCode;
+import javafx.util.Duration;
 
 public class LoginPresenter {
     private final LoginView view;

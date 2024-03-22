@@ -16,6 +16,8 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 
 import java.util.Objects;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class MainMenuPresenter {
     private final MainMenuView view;
@@ -30,7 +32,41 @@ public class MainMenuPresenter {
 
     private void addEventHandlers() {
         view.getBtnPlay().setOnAction(actionEvent -> {
-            PlayField playFieldModel = new PlayField();
+            AtomicInteger amountOfPlayers = new AtomicInteger();
+            Alert alertAmount = new Alert(Alert.AlertType.CONFIRMATION);
+            alertAmount.setTitle("Four Colors");
+            alertAmount.setHeaderText("Kies het aantal spelers");
+            ButtonType players2 = new ButtonType("2");
+            ButtonType players3 = new ButtonType("3");
+            ButtonType players4 = new ButtonType("4");
+            alertAmount.getButtonTypes().setAll(players2, players3, players4);
+            alertAmount.showAndWait().ifPresent(buttonEvent1 -> {
+                if (buttonEvent1.equals(players2)) {
+                    amountOfPlayers.set(2);
+                } else if (buttonEvent1.equals(players3)) {
+                    amountOfPlayers.set(3);
+                } else if (buttonEvent1.equals(players4)) {
+                    amountOfPlayers.set(4);
+                }
+            });
+            AtomicReference<String> botType = new AtomicReference<>();
+            Alert alertType = new Alert(Alert.AlertType.CONFIRMATION);
+            alertType.setTitle("Four Colors");
+            alertType.setHeaderText("Kies het aantal spelers");
+            ButtonType easy = new ButtonType("Makkelijk");
+            ButtonType medium = new ButtonType("Gemiddeld");
+            ButtonType hard = new ButtonType("Moeilijk");
+            alertType.getButtonTypes().setAll(easy, medium, hard);
+            alertType.showAndWait().ifPresent(buttonEvent2 -> {
+                if (buttonEvent2.equals(easy)) {
+                    botType.set("easy");
+                } else if (buttonEvent2.equals(medium)) {
+                    botType.set("medium");
+                } else if (buttonEvent2.equals(hard)) {
+                    botType.set("hard");
+                }
+            });
+            PlayField playFieldModel = new PlayField(amountOfPlayers.get(), botType.get());
             GameView gameView = new GameView();
             GamePresenter gamePresenter = new GamePresenter(gameView, playFieldModel, model);
             view.getScene().setRoot(gameView);

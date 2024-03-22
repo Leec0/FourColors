@@ -6,6 +6,8 @@ import be.fourcolors.mvp.model.game.cards.CardColor;
 import be.fourcolors.mvp.model.game.cards.CardDeck;
 import be.fourcolors.mvp.model.game.cards.CardType;
 import be.fourcolors.mvp.model.game.players.AiEasy;
+import be.fourcolors.mvp.model.game.players.AiHard;
+import be.fourcolors.mvp.model.game.players.AiMedium;
 import be.fourcolors.mvp.model.game.players.interfaces.BotBase;
 import be.fourcolors.mvp.model.game.players.HumanPlayer;
 import be.fourcolors.mvp.model.game.players.interfaces.Player;
@@ -24,16 +26,22 @@ public class PlayField {
     private final CardChecker cardChecker;
     private int currentDrawAmount;
 
-    public PlayField() {
+    public PlayField(int playerAmount, String botType) {
         cardDeck = new CardDeck();
         players = new ArrayList<>();
         cardChecker = new CardChecker();
         currentDrawAmount = 0;
         setStartCard();
-        int playerAmount = 2;
+        if (playerAmount < 2 ||  playerAmount > 4) {
+            playerAmount = 2;
+        }
         players.add(new HumanPlayer());
         for (int i = 0; i < playerAmount - 1; i++) {
-            players.add(new AiEasy(cardChecker));
+            switch (botType.toLowerCase()) {
+                case "easy" -> players.add(new AiEasy(cardChecker));
+                case "medium" -> players.add(new AiMedium(cardChecker));
+                case "hard" -> players.add(new AiHard(cardChecker));
+            }
         }
         givePlayerCards();
         players.get(0).setPlayerTurn(true);

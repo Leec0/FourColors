@@ -1,11 +1,11 @@
 package be.fourcolors.mvp.view.splash;
 
+import be.fourcolors.mvp.model.user.BackgroundColor;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 
 import java.util.Objects;
 
@@ -20,6 +20,9 @@ public class SplashView extends BorderPane {
     }
 
     private void initializeNodes() {
+        Image backgroundImage = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/backgrounds/" + BackgroundColor.WHITE.getBackgroundFile())));
+        this.setBackground(new Background(new BackgroundImage(backgroundImage, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, new BackgroundSize(BackgroundSize.AUTO, BackgroundSize.AUTO, false, false, true, true))));
+
         Image logo = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/icon.png")));
         ivLogo = new ImageView(logo);
 
@@ -47,4 +50,7 @@ public class SplashView extends BorderPane {
         this.setCenter(vBox);
     }
 
+    public VBox getvBox() {
+        return vBox;
+    }
 }
