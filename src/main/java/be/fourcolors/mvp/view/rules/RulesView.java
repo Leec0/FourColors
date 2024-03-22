@@ -16,7 +16,6 @@ public class RulesView extends BorderPane {
     private Button btnReturn;
     private Image iRules;
     private ImageView ivRules;
-    private ScrollBar scrollBar;
 public RulesView() {
     initializeNodes();
     layoutNodes();
@@ -37,7 +36,6 @@ public RulesView() {
             throw new RuntimeException(e);
         }
 
-        scrollBar = new ScrollBar();
     }
     private void layoutNodes() {
         btnReturn.setPrefWidth(200);
@@ -46,7 +44,6 @@ public RulesView() {
 
         this.setCenter(ivRules);
         this.setBottom(btnReturn);
-        this.setRight(scrollBar);
 
         btnReturn.setAlignment(Pos.BOTTOM_RIGHT);
         setMargin(btnReturn, new Insets(40, 0, 0, 0));
@@ -64,8 +61,5 @@ public RulesView() {
         return ivRules;
     }
 
-    public ScrollBar getScrollBar() {
-        return scrollBar;
-    }
 }
 
