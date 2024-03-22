@@ -82,10 +82,14 @@ public class GamePresenter {
             ButtonType buttonTypeNo = new ButtonType("No");
             alert.getButtonTypes().setAll(buttonTypeYes, buttonTypeNo);
             alert.showAndWait().ifPresent(buttonType -> {
+                windowEvent.consume();
                 if (buttonType == buttonTypeYes) {
-                    view.getScene().getWindow().hide();
-                } else {
-                    windowEvent.consume();
+                    Users users = new Users();
+                    users.addWin(user);
+                    MainMenuView mainMenuView = new MainMenuView();
+                    MainMenuPresenter mainMenuPresenter = new MainMenuPresenter(mainMenuView, user);
+                    view.getScene().setRoot(mainMenuView);
+                    mainMenuPresenter.addWindowEventHandlers();
                 }
             });
         });
