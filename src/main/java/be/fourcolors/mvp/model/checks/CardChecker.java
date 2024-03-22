@@ -8,11 +8,15 @@ public class CardChecker {
     private boolean requiredToPlayDraw;
 
     public CardChecker() {
-        requiredToPlayDraw = false;
     }
+
     public boolean canBePlayed(Card card, Card playedCard, CardColor wildCardColor) {
         if (requiredToPlayDraw) {
-            if (playedCard.getColor() == CardColor.WILD) return card.getColor() == wildCardColor;
+            if (playedCard.getColor() == CardColor.WILD) {
+                if (card.getColor() == wildCardColor) {
+                    return card.getType() == CardType.DRAW;
+                }
+            }
             return card.getType() == CardType.DRAW;
         }
         boolean result;

@@ -32,7 +32,7 @@ public class PlayField {
         cardChecker = new CardChecker();
         currentDrawAmount = 0;
         setStartCard();
-        if (playerAmount < 2 ||  playerAmount > 4) {
+        if (playerAmount < 2 || playerAmount > 4) {
             playerAmount = 2;
         }
         players.add(new HumanPlayer());
@@ -95,24 +95,22 @@ public class PlayField {
     }
 
     public void playerDraw(Player player) {
-        if (!gameEnd()) {
-            if (!cardChecker.isRequiredToPlayDraw()) {
-                Card drawedCard;
-                boolean emptyDeck;
-                do {
-                    emptyDeck = cardDeck.getSize() <= 0;
-                    if (emptyDeck) return;
-                    drawedCard = cardDeck.takeCard(0);
-                    player.addCard(drawedCard);
-                } while (!cardChecker.canBePlayed(drawedCard, playedCard, wildCardColor));
-            } else {
-                draw(player, currentDrawAmount);
-                currentDrawAmount = 0;
-                cardChecker.setRequiredToPlayDraw(false);
-            }
-            playerTurn = nextPlayer();
-            resetOneCard();
+        if (!cardChecker.isRequiredToPlayDraw()) {
+            Card drawedCard;
+            boolean emptyDeck;
+            do {
+                emptyDeck = cardDeck.getSize() <= 0;
+                if (emptyDeck) return;
+                drawedCard = cardDeck.takeCard(0);
+                player.addCard(drawedCard);
+            } while (!cardChecker.canBePlayed(drawedCard, playedCard, wildCardColor));
+        } else {
+            draw(player, currentDrawAmount);
+            currentDrawAmount = 0;
+            cardChecker.setRequiredToPlayDraw(false);
         }
+        playerTurn = nextPlayer();
+        resetOneCard();
     }
 
     public void playerPlay(Player player, Card playerPlayedCard) {
